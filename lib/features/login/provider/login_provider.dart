@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider_test1/features/login/model/login_model.dart';
 import 'package:provider_test1/features/login/model/signup_model.dart';
 import 'package:provider_test1/features/login/service/login_service.dart';
 import 'package:provider_test1/features/login/service/login_service_impl.dart';
 import 'package:provider_test1/utils/api_response.dart';
 import 'package:provider_test1/utils/network_status.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginProvider extends ChangeNotifier {
   List<String> genderList = ["Male", "Female", "Others"];
@@ -16,17 +18,19 @@ class LoginProvider extends ChangeNotifier {
   TextEditingController nameController = TextEditingController();
   TextEditingController contactController = TextEditingController();
 
-  NetworkStatus loginStatus = NetworkStatus.idle;
-  // NetworkStatus get getLoginStatus=> _loginStatus;
-LoginSerice loginService= LoginServiceImpl();
+//network status for register
+  NetworkStatus _registerStatus = NetworkStatus.idle;
+  NetworkStatus get getRegisterStatus=> _registerStatus;
 
-  setLoginStatus(NetworkStatus networkStatus) {
-    loginStatus = networkStatus;
+LoginRegisterSerice loginService= LoginServiceImpl();
+
+  setRegisterStatus(NetworkStatus networkStatus) {
+    _registerStatus = networkStatus;
     notifyListeners();
   }
 
-   loginUser()async {
-    setLoginStatus(NetworkStatus.loading);
+   registerUser()async {
+    setRegisterStatus(NetworkStatus.loading);
 
     SignupModel model = SignupModel(
       name: nameController.text,
@@ -38,12 +42,12 @@ LoginSerice loginService= LoginServiceImpl();
       email: emailController.text,
     );
 
-   ApiResponse response= await loginService.login(model);
+   ApiResponse response= await loginService.register(model);
    if(response.statusCode==200 || response.statusCode==201){
-   setLoginStatus(NetworkStatus.success);
+   setRegisterStatus(NetworkStatus.success);
 
    }else {
-    setLoginStatus(NetworkStatus.error);
+    setRegisterStatus(NetworkStatus.error);
    }
 
   }
@@ -51,5 +55,30 @@ LoginSerice loginService= LoginServiceImpl();
   changeVisibility() {
     visible = !visible;
     notifyListeners();
+  }
+
+  NetworkStatus _loginStatus=NetworkStatus.idle;
+  NetworkStatus get getLoginStatus=>_loginStatus;
+  String? loginErrorMessage;
+  setLoginStatus(NetworkStatus networkStatus){
+    _loginStatus=networkStatus;
+    notifyListeners();
+  }
+
+  loginUser()async{
+    setLoginStatus(NetworkStatus.loading);
+    LoginModel loginModel=LoginModel(
+      email: emailController.text,
+      password: passwordController.text
+    );
+    ApiResponse response=await loginService.login(loginModel);
+    if(response.statusCode==200 || response.statusCode==201){
+      
+      setLoginStatus(NetworkStatus.success);
+
+    }else{
+      loginErrorMessage=response.errorMessaage;
+      setLoginStatus(NetworkStatus.error);
+    }
   }
 }

@@ -88,16 +88,16 @@ class _Register1State extends State<Register1> {
                       ),
                       CustomElevatedbutton(
                         child:
-                            loginProvider.loginStatus == NetworkStatus.loading
+                            loginProvider.getRegisterStatus == NetworkStatus.loading
                                 ? CircularProgressIndicator()
                                 : Text(registerStr),
                         onPressed: () async {
                           if (_formKey.currentState!.validate()) {
-                           await loginProvider.loginUser();
-                           if(loginProvider.loginStatus==NetworkStatus.success){
+                           await loginProvider.registerUser();
+                           if(loginProvider.getRegisterStatus==NetworkStatus.success){
                             displaySnackBar(context, registerMessageStr);
                             RouteGenerator.navigateToPage(context, Routes.loginRoute);
-                           }else if(loginProvider.loginStatus==NetworkStatus.error){
+                           }else if(loginProvider.getRegisterStatus==NetworkStatus.error){
                             displaySnackBar(context, registerMessageFailedStr);
                            }
                           }

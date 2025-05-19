@@ -18,10 +18,10 @@ class Api {
       Response response = await dio.post(url, data: data);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return ApiResponse(
-            networkStatus: NetworkStatus.success, data: response.data);
+            networkStatus: NetworkStatus.success, data: response.data,statusCode: response.statusCode);
       } else {
         return ApiResponse(
-            networkStatus: NetworkStatus.error, errorMessaage: badRequestStr);
+            networkStatus: NetworkStatus.error, errorMessaage: badRequestStr,statusCode: response.statusCode);
       }
     } on DioError catch (e) {
       if (e.response?.statusCode == 400) {
