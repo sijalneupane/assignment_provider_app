@@ -11,25 +11,27 @@ class LoginProvider extends ChangeNotifier {
   List<String> genderList = ["Male", "Female", "Others"];
   List<String> roleList = ["Admin", "User"];
   String? gender, role;
-  bool visible = false;
+  bool loginPasswordVisible = false;
+  bool registerPasswordVisible = false;
   TextEditingController emailController = TextEditingController();
   TextEditingController usernameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController contactController = TextEditingController();
 
-//network status for register
+  //network status for register
   NetworkStatus _registerStatus = NetworkStatus.idle;
-  NetworkStatus get getRegisterStatus=> _registerStatus;
 
-LoginRegisterSerice loginService= LoginServiceImpl();
+  NetworkStatus get getRegisterStatus => _registerStatus;
+
+  LoginRegisterSerice loginService = LoginServiceImpl();
 
   setRegisterStatus(NetworkStatus networkStatus) {
     _registerStatus = networkStatus;
     notifyListeners();
   }
 
-   registerUser()async {
+  registerUser() async {
     setRegisterStatus(NetworkStatus.loading);
 
     SignupModel model = SignupModel(
@@ -42,43 +44,72 @@ LoginRegisterSerice loginService= LoginServiceImpl();
       email: emailController.text,
     );
 
-   ApiResponse response= await loginService.register(model);
-   if(response.statusCode==200 || response.statusCode==201){
-   setRegisterStatus(NetworkStatus.success);
-
-   }else {
-    setRegisterStatus(NetworkStatus.error);
-   }
-
+    ApiResponse response = await loginService.register(model);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      setRegisterStatus(NetworkStatus.success);
+    } else {
+      setRegisterStatus(NetworkStatus.error);
+    }
   }
 
-  changeVisibility() {
-    visible = !visible;
+  changeLoginVisibility() {
+    loginPasswordVisible = !loginPasswordVisible;
     notifyListeners();
   }
 
-  NetworkStatus _loginStatus=NetworkStatus.idle;
-  NetworkStatus get getLoginStatus=>_loginStatus;
+  changeRegisterVisibility() {
+    registerPasswordVisible = !registerPasswordVisible;
+    notifyListeners();
+  }
+
+  NetworkStatus _loginStatus = NetworkStatus.idle;
+  NetworkStatus get getLoginStatus => _loginStatus;
   String? loginErrorMessage;
-  setLoginStatus(NetworkStatus networkStatus){
-    _loginStatus=networkStatus;
+  setLoginStatus(NetworkStatus networkStatus) {
+    _loginStatus = networkStatus;
     notifyListeners();
   }
 
-  loginUser()async{
+  loginUser() async {
     setLoginStatus(NetworkStatus.loading);
-    LoginModel loginModel=LoginModel(
+    LoginModel loginModel = LoginModel(
       email: emailController.text,
-      password: passwordController.text
+      password: passwordController.text,
     );
-    ApiResponse response=await loginService.login(loginModel);
-    if(response.statusCode==200 || response.statusCode==201){
-      
+    ApiResponse response = await loginService.login(loginModel);
+    if (response.statusCode == 200 || response.statusCode == 201) {
+      clearFormFields();
+      // Obtain shared preferences.
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String token = response.data["token"];
+      prefs.setString("token", token);
       setLoginStatus(NetworkStatus.success);
-
-    }else{
-      loginErrorMessage=response.errorMessaage;
+    } else {
+      loginErrorMessage = response.errorMessaage;
       setLoginStatus(NetworkStatus.error);
     }
   }
+
+  // @override
+  // void dispose() {
+  //   emailController.dispose();
+  //   passwordController.dispose();
+  //   usernameController.dispose();
+  //   contactController.dispose();
+  //   nameController.dispose();
+  //   role = null;
+  //   gender = null;
+
+  //   super.dispose();
+  // }
+  void clearFormFields() {
+  emailController.clear();
+  passwordController.clear();
+  usernameController.clear();
+  contactController.clear();
+  nameController.clear();
+  role = null;
+  gender = null;
+  notifyListeners();
+}
 }

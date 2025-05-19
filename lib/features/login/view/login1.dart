@@ -44,7 +44,7 @@ class _LoginState extends State<Login> {
                   child: Column(
                     children: [
                       SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.05,
+                        height: MediaQuery.of(context).size.height * 0.3,
                       ),
                       CustomTextformfield(
                         controller: loginProvider.emailController,
@@ -54,13 +54,13 @@ class _LoginState extends State<Login> {
                       CustomTextformfield(
                         controller: loginProvider.passwordController,
                         labelText: passwordStr,
-                        obscureText: loginProvider.visible,
+                        obscureText: loginProvider.loginPasswordVisible,
                         suffixIcon: IconButton(
                           onPressed: () {
-                            loginProvider.changeVisibility();
+                            loginProvider.changeLoginVisibility();
                           },
                           icon:
-                              loginProvider.visible
+                              loginProvider.loginPasswordVisible
                                   ? Icon(Icons.visibility_off)
                                   : Icon(Icons.visibility),
                         ),
@@ -81,7 +81,10 @@ class _LoginState extends State<Login> {
                       ),
                       CustomInkwell(
                         data: notRegisteredStr,
-                        builder: (p0) => Register1(),
+                        onTap: () {
+                          loginProvider.clearFormFields();
+                          RouteGenerator.navigateToPage(context, Routes.signupRoute);
+                        },
                       ),
                     ],
                   ),

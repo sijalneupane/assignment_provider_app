@@ -26,22 +26,22 @@ class Api {
     } on DioError catch (e) {
       if (e.response?.statusCode == 400) {
         return ApiResponse(
-            networkStatus: NetworkStatus.error, errorMessaage: badRequestStr);
+            networkStatus: NetworkStatus.error, errorMessaage: badRequestStr,statusCode: e.response?.statusCode);
       } else if (e.error is SocketException) {
         return ApiResponse(
-            networkStatus: NetworkStatus.error, errorMessaage: noInternetStr);
+            networkStatus: NetworkStatus.error, errorMessaage: noInternetStr,statusCode: e.response?.statusCode);
       }else if (e.response?.statusCode == 401) {
         return ApiResponse(
-            networkStatus: NetworkStatus.error, errorMessaage: e.response?.statusMessage);
+            networkStatus: NetworkStatus.error, errorMessaage: e.response?.statusMessage,statusCode: e.response?.statusCode);
       }else if (e.response?.statusCode == 403) {
         return ApiResponse(
-            networkStatus: NetworkStatus.error, errorMessaage: e.response?.statusMessage);
+            networkStatus: NetworkStatus.error, errorMessaage: e.response?.statusMessage,statusCode: e.response?.statusCode);
       }else if (e.response?.statusCode == 404) {
         return ApiResponse(
-            networkStatus: NetworkStatus.error, errorMessaage: e.response?.statusMessage);
+            networkStatus: NetworkStatus.error, errorMessaage: e.response?.statusMessage,statusCode: e.response?.statusCode);
       } else {
         return ApiResponse(
-            networkStatus: NetworkStatus.error, errorMessaage: e.toString());
+            networkStatus: NetworkStatus.error, errorMessaage: e.toString(),statusCode: e.response?.statusCode);
       }
     }
   }

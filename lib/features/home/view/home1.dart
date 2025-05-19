@@ -20,7 +20,8 @@ class _Home1State extends State<Home1> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Center(child: Text(welcomeHomeStr,style: TextStyle(fontSize: 30),textAlign: TextAlign.center,)),
+          
+          Text(welcomeHomeStr,style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
         ],
       ),
     );

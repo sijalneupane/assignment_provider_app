@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider_test1/features/assignment/view/add_assignment.dart';
-import 'package:provider_test1/features/login/view/get_assignment.dart';
+import 'package:provider_test1/features/assignment/view/get_assignment.dart';
 import 'package:provider_test1/features/login/view/login1.dart';
 import 'package:provider_test1/utils/string_const.dart';
 import 'package:provider_test1/widgets/setting_elevated_button.dart';

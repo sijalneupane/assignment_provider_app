@@ -17,14 +17,15 @@ import 'package:provider_test1/widgets/custom_elevatedbutton.dart';
 import 'package:provider_test1/widgets/custom_textformfield.dart';
 import 'package:provider_test1/widgets/custom_textformfield_carrental.dart';
 
-class Register1 extends StatefulWidget {
-  const Register1({super.key});
+class Register extends StatefulWidget {
+  const Register({super.key});
 
   @override
-  State<Register1> createState() => _Register1State();
+  State<Register> createState() => _RegisterState();
 }
 
-class _Register1State extends State<Register1> {
+class _RegisterState extends State<Register> {
+
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -52,13 +53,13 @@ class _Register1State extends State<Register1> {
                         keyboardType: TextInputType.visiblePassword,
                         controller: loginProvider.passwordController,
                         labelText: passwordStr,
-                        obscureText: loginProvider.visible ? false : true,
+                        obscureText: loginProvider.registerPasswordVisible ? false : true,
                         suffixIcon: IconButton(
                           onPressed: () {
-                            loginProvider.changeVisibility();
+                            loginProvider.changeRegisterVisibility();
                           },
                           icon:
-                              loginProvider.visible
+                              loginProvider.registerPasswordVisible
                                   ? Icon(Icons.visibility_off)
                                   : Icon(Icons.visibility),
                         ),
@@ -105,7 +106,10 @@ class _Register1State extends State<Register1> {
                       ),
                       CustomInkwell(
                         data: alreadyRegisteredStr,
-                        builder: (p0) => Login(),
+                        onTap: () {
+                          loginProvider.clearFormFields();
+                          RouteGenerator.navigateToPage(context,Routes.loginRoute);
+                        },
                       ),
                     ],
                   ),

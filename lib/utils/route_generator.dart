@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider_test1/features/login/view/login1.dart';
+import 'package:provider_test1/features/login/view/register1.dart';
 import 'package:provider_test1/utils/route_const.dart';
 
 class RouteGenerator {
@@ -23,12 +24,9 @@ class RouteGenerator {
         return PageRouteBuilder(
             pageBuilder: (_, __, ___) => Login(
                 ));
-      // case Routes.signupRoute:
-      //   return PageRouteBuilder(
-      //       pageBuilder: (_, __, ___) => Signup(
-      //           user: settings.arguments != null
-      //               ? settings.arguments as Users
-      //               : null));
+      case Routes.signupRoute:
+        return PageRouteBuilder(
+            pageBuilder: (_, __, ___) => Register());
       // case Routes.getStartedRoute:
       //   return PageRouteBuilder(
       //       pageBuilder: (_, __, ___) => const GetStarted());
