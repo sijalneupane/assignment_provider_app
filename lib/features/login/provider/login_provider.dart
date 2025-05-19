@@ -77,7 +77,7 @@ class LoginProvider extends ChangeNotifier {
       password: passwordController.text,
     );
     ApiResponse response = await loginService.login(loginModel);
-    if (response.statusCode == 200 || response.statusCode == 201) {
+    if (response.networkStatus==NetworkStatus.success) {
       clearFormFields();
       // Obtain shared preferences.
       final SharedPreferences prefs = await SharedPreferences.getInstance();
