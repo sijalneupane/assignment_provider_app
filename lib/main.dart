@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:provider_test1/features/assignment/provider/assignment_provider.dart';
 import 'package:provider_test1/features/assignment/view/get_assignment.dart';
 import 'package:provider_test1/features/login/provider/login_provider.dart';
 import 'package:provider_test1/features/login/view/login1.dart';
@@ -16,7 +17,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context)=>LoginProvider())
+        ChangeNotifierProvider(create: (context)=>LoginProvider()),
+        ChangeNotifierProvider(create: (_)=>AssignmentProvider())
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

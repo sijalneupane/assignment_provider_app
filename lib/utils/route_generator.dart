@@ -1,32 +1,46 @@
 import 'package:flutter/material.dart';
+import 'package:provider_test1/features/assignment/view/add_assignment.dart';
+import 'package:provider_test1/features/assignment/view/get_assignment.dart';
+import 'package:provider_test1/features/home/view/bottom_navbar1.dart';
+import 'package:provider_test1/features/home/view/home1.dart';
 import 'package:provider_test1/features/login/view/login1.dart';
 import 'package:provider_test1/features/login/view/register1.dart';
 import 'package:provider_test1/utils/route_const.dart';
 
 class RouteGenerator {
-  static navigateToPage(BuildContext context, String route,
-      {dynamic arguments}) {
-    Navigator.push(context,
-        generateRoute(RouteSettings(name: route, arguments: arguments)));
+  static navigateToPage(
+    BuildContext context,
+    String route, {
+    dynamic arguments,
+  }) {
+    Navigator.push(
+      context,
+      generateRoute(RouteSettings(name: route, arguments: arguments)),
+    );
   }
 
-  static navigateToPageWithoutStack(BuildContext context, String route,
-      {dynamic arguments}) {
+  static navigateToPageWithoutStack(
+    BuildContext context,
+    String route, {
+    dynamic arguments,
+  }) {
     Navigator.pushAndRemoveUntil(
-        context,
-        generateRoute(RouteSettings(name: route, arguments: arguments)),
-        (route) => false);
+      context,
+      generateRoute(RouteSettings(name: route, arguments: arguments)),
+      (route) => false,
+    );
   }
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.loginRoute:
-        return PageRouteBuilder(
-            pageBuilder: (_, __, ___) => Login(
-                ));
+        return PageRouteBuilder(pageBuilder: (_, __, ___) => Login());
       case Routes.signupRoute:
-        return PageRouteBuilder(
-            pageBuilder: (_, __, ___) => Register());
+        return PageRouteBuilder(pageBuilder: (_, __, ___) => Register());
+      case Routes.addAssignment:
+        return PageRouteBuilder(pageBuilder: (_, __, ___) => AddAssignment());
+      case Routes.getAssignment:
+        return PageRouteBuilder(pageBuilder: (_, __, ___) => GetAssignment());
       // case Routes.getStartedRoute:
       //   return PageRouteBuilder(
       //       pageBuilder: (_, __, ___) => const GetStarted());
@@ -38,13 +52,15 @@ class RouteGenerator {
       // case Routes.resetPasswordRoute:
       //   return PageRouteBuilder(
       //       pageBuilder: (_, __, ___) =>  ResetPassword(email: settings.arguments as String,));
-      // case Routes.bottomNavbarRoute:
-      //   return PageRouteBuilder(
-      //       pageBuilder: (_, __, ___) => const BottomNavbar1());
-      // case Routes.homeRoute:
-      //   return PageRouteBuilder(
-      //       transitionDuration: const Duration(milliseconds: 600),
-      //       pageBuilder: (_, __, ___) => const Home());
+      case Routes.bottomNavbarRoute:
+        return PageRouteBuilder(
+          pageBuilder: (_, __, ___) => const BottomNavbar1(),
+        );
+      case Routes.homeRoute:
+        return PageRouteBuilder(
+          transitionDuration: const Duration(milliseconds: 600),
+          pageBuilder: (_, __, ___) => const Home1(),
+        );
       // case Routes.carDetailsRoute:
       //   print(settings.arguments);
 
@@ -83,10 +99,13 @@ class RouteGenerator {
       //       pageBuilder: (_, __, ___) => const NotificationPage());
       default:
         return PageRouteBuilder(
-            pageBuilder: (_, __, ___) => Scaffold(
-                  body: Center(
-                      child: Text('No route defined for ${settings.name}')),
-                ));
+          pageBuilder:
+              (_, __, ___) => Scaffold(
+                body: Center(
+                  child: Text('No route defined for ${settings.name}'),
+                ),
+              ),
+        );
     }
   }
 }

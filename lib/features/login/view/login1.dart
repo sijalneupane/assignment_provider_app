@@ -72,7 +72,7 @@ class _LoginState extends State<Login> {
                             await loginProvider.loginUser();
                             if(loginProvider.getLoginStatus==NetworkStatus.success){
                               displaySnackBar(context, loginMessageStr);
-                              RouteGenerator.navigateToPageWithoutStack(context,Routes.homeRoute);
+                              RouteGenerator.navigateToPageWithoutStack(context,Routes.bottomNavbarRoute);
                             }else if(loginProvider.getLoginStatus==NetworkStatus.error){
                               displaySnackBar(context, loginProvider.loginErrorMessage?? loginMessageFailedStr);
                             }

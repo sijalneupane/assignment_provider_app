@@ -8,8 +8,9 @@ import 'package:provider_test1/utils/network_status.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginProvider extends ChangeNotifier {
-  List<String> genderList = ["Male", "Female", "Others"];
-  List<String> roleList = ["Admin", "User"];
+  List<String> genderList = ["male", "female", "Others"];
+  // List<String> roleList = ["admin", "user"];
+  List<String> roleList = ["teacher", "student","admin"];
   String? gender, role;
   bool loginPasswordVisible = false;
   bool registerPasswordVisible = false;
@@ -82,7 +83,9 @@ class LoginProvider extends ChangeNotifier {
       // Obtain shared preferences.
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String token = response.data["token"];
+      final String role=response.data["role"];
       prefs.setString("token", token);
+      prefs.setString("role", role);
       setLoginStatus(NetworkStatus.success);
     } else {
       loginErrorMessage = response.errorMessaage;

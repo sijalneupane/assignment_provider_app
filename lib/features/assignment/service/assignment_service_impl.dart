@@ -13,7 +13,7 @@ class AssignmentServiceImpl extends AssignmentService{
   }
 
   @override
-  Future<ApiResponse> getAssignment( String token) async {
+  Future<ApiResponse> getAssignment(String token) async {
    ApiResponse response=await api.get(ApiConst.baseUrl+ApiConst.addAssignmentApi, token: token);
     return response;
   }

@@ -20,10 +20,12 @@ class _Home1State extends State<Home1> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          
+          Padding(padding: const EdgeInsets.only(bottom: 100),
+          child:Text("Role") ,),
           Text(welcomeHomeStr,style: TextStyle(fontSize: 30),textAlign: TextAlign.center,),
         ],
       ),
     );
   }
+  
 }
