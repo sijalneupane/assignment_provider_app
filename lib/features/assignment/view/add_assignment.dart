@@ -1,9 +1,13 @@
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:provider_test1/features/assignment/model/add_assignment_model.dart';
+import 'package:provider_test1/features/assignment/model/assignment_model.dart';
 import 'package:provider_test1/features/assignment/provider/assignment_provider.dart';
 import 'package:provider_test1/utils/api_const.dart';
+import 'package:provider_test1/utils/network_status.dart';
+import 'package:provider_test1/utils/route_const.dart';
+import 'package:provider_test1/utils/route_generator.dart';
 import 'package:provider_test1/utils/snackbar.dart';
 import 'package:provider_test1/utils/string_const.dart';
 import 'package:provider_test1/widgets/custom_dropdown.dart';
@@ -12,123 +16,129 @@ import 'package:provider_test1/widgets/custom_textformfield.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddAssignment extends StatefulWidget {
-  const AddAssignment({super.key});
+  AssignmentModel? assignmentModel;
+  AddAssignment({super.key, this.assignmentModel});
 
   @override
   State<AddAssignment> createState() => _AddAssignmentState();
 }
 
 class _AddAssignmentState extends State<AddAssignment> {
+  @override
+  void initState() {
+    if (widget.assignmentModel != null) {
+      Future.microtask(() {
+      Provider.of<AssignmentProvider>(context, listen: false).setFormValues(widget.assignmentModel!);
+    });
+    }
+    super.initState();
+  }
 
-
-  // @override
-  // void initState() {
-  //   fetchToken();
-  //   super.initState();
-
-  // }
-
-  // fetchToken() async {
-  //   try {
-  //     final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     setState(() {
-  //       token = prefs.getString('authToken'); // Retrieve the token
-  //     });
-  //   } on Exception catch (e) {
-  //     displaySnackBar(context, e.toString());
-  //   }
-  // }
-
+  final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
-    final _formKey = GlobalKey<FormState>();
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        leading: IconButton(onPressed: (){
-          Navigator.pop(context);
-        }, icon: Icon(Icons.arrow_back_ios)),
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(Icons.arrow_back_ios),
+        ),
         title: Text(addAssignmentStr),
       ),
       body: Consumer<AssignmentProvider>(
-        builder: (context, assignmentProvider, child) =>  SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
-              children: [
-                CustomTextformfield(
-                  labelText: subjectNameStr,
-                  controller: assignmentProvider.subjectController,
-                ),
-                CustomDropdown(
-                  dropDownItemList:assignmentProvider.facultyList,
-                  labelText: facultyStr,
-                  onChanged: (value) {
-                    assignmentProvider.faculty=value;
-                  },
-                ),
-                CustomDropdown(
-                  dropDownItemList:assignmentProvider. semesterList,
-                  labelText: semesterStr,
-                  onChanged: (value) {
-                    assignmentProvider.semester = value;
-                  },
-                ),
-                CustomTextformfield(
-                  labelText: titleStr,
-                  controller:assignmentProvider.titleController,
-                ),
-                CustomTextformfield(
-                    labelText: descriptionStr, controller:assignmentProvider. descriptionController),
-                CustomElevatedbutton(
-                    child: Text(
-                      addAssignmentStr,
+        builder:
+            (context, assignmentProvider, child) => SingleChildScrollView(
+              child: Form(
+                key: _formKey,
+                child: Column(
+                  children: [
+                    CustomTextformfield(
+                      labelText: subjectNameStr,
+                      controller: assignmentProvider.subjectController,
                     ),
-                    onPressed: () async {
-                      if (_formKey.currentState!.validate()) {
-                        // var addAssignmentJson = {
-                        //   "subjectName": subjectController.text,
-                        //   "semester": semester,
-                        //   "faculty": faculty,
-                        //   "title": titleController.text,
-                        //   "description": descriptionController.text
-                        // };
-                        // Dio dio = Dio();
-                        // try {
-                        //   final SharedPreferences prefs =
-                        //       await SharedPreferences.getInstance();
-                        //   token = prefs.getString("authToken");
-                        //   dio.options.headers['content-Type'] =
-                        //       'application/json';
-                        //   if (token != null && token!.isNotEmpty) {
-                        //     dio.options.headers["Authorization"] =
-                        //         "Bearer $token";
-                        //   }
-                        //   Response response = await dio.post(
-                        //       ApiConst.baseUrl + ApiConst.addAssignmentApi,
-                        //       data: addAssignmentJson);
-                        //   if (response.statusCode == 200 ||
-                        //       response.statusCode == 201) {
-                        //     subjectController.clear();
-                        //     semester = null;
-                        //     faculty = null;
-                        //     titleController.clear();
-                        //     descriptionController.clear();
-                        //     _formKey.currentState!.reset();
-                        //     displaySnackBar(context, addAssignmentMessageStr);
-                        //   } else {
-                        //     displaySnackBar(
-                        //         context, addAssignmentMessageFailedStr);
-                        //   }
-                        // } catch (e) {
-                        //   displaySnackBar(context, e.toString());
-                        // }
-                      }
-                    })
-              ],
+                    CustomDropdown(
+                      value: assignmentProvider.faculty,
+                      dropDownItemList: assignmentProvider.facultyList,
+                      labelText: facultyStr,
+                      onChanged: (value) {
+                        assignmentProvider.faculty = value;
+                      },
+                    ),
+                    CustomDropdown(
+                      value: assignmentProvider.semester,
+                      dropDownItemList: assignmentProvider.semesterList,
+                      labelText: semesterStr,
+                      onChanged: (value) {
+                        assignmentProvider.semester = value;
+                      },
+                    ),
+                    CustomTextformfield(
+                      labelText: titleStr,
+                      controller: assignmentProvider.titleController,
+                    ),
+                    CustomTextformfield(
+                      labelText: descriptionStr,
+                      controller: assignmentProvider.descriptionController,
+                    ),
+                    CustomElevatedbutton(
+                      child: Text(addAssignmentStr),
+                      onPressed: () async {
+                        if (_formKey.currentState!.validate()) {
+                          assignmentProvider.setAddAssignmentStatus(
+                            NetworkStatus.loading,
+                          );
+                          if (widget.assignmentModel == null) {
+                            await assignmentProvider.addAssignment();
+                            if (assignmentProvider.getAddAssignmentStatus ==
+                                NetworkStatus.success) {
+                              displaySnackBar(context, addAssignmentMessageStr);
+                              Future.delayed(Duration(seconds: 1), () {
+                                // RouteGenerator.navigateToPage(context,Routes.)
+                                RouteGenerator.navigateToPage(
+                                  context,
+                                  Routes.getAssignment,
+                                );
+                              });
+                            } else {
+                              displaySnackBar(
+                                context,
+                                addAssignmentMessageFailedStr,
+                              );
+                            }
+                          } else {
+                            await assignmentProvider.editAssignment(
+                              widget.assignmentModel!.id!,
+                            );
+                            if (assignmentProvider.getEditAssignmentStatus ==
+                                NetworkStatus.success) {
+                              displaySnackBar(
+                                context,
+                                editAssignmentMessageStr,
+                              );
+                              Future.delayed(Duration(seconds: 1), () {
+                                // RouteGenerator.navigateToPage(context,Routes.)
+                                RouteGenerator.navigateToPage(
+                                  context,
+                                  Routes.getAssignment,
+                                );
+                              });
+                            } else {
+                              displaySnackBar(
+                                context,
+                                editAssignmentMessageFailedStr,
+                              );
+                            }
+                          }
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
-        ),
       ),
     );
   }

@@ -24,6 +24,8 @@ String titleStr="Title";
 String descriptionStr="Description";
 String addAssignmentMessageStr="Assignment added successfully";
 String addAssignmentMessageFailedStr="Failed to add assignmet";
+String editAssignmentMessageStr="Assignment updated successfully";
+String editAssignmentMessageFailedStr="Failed to update assignmet";
 
 String loginMessageFailedStr="Failed to login";
 String loginMessageStr="Login Successfullyy";
@@ -45,3 +47,9 @@ const String badRequestStr = "Bad request";
 const String noInternetStr = "No internet connection";
 const String credentialsError = "Credentials didnot match";
 const String authorizationFailed = "The user doesnot have the required Permission";
+
+
+const String deleteAssignmentTitleStr="Delete Assignment ";
+const String deleteAssignmentMessageConfirmStr="Do you really want to delete assignment: ";
+const String deleteAssignmentSuccessStr="Successfully deleted ";
+const String deleteAssignmentFailedStr="Failed to delete Assignment ";

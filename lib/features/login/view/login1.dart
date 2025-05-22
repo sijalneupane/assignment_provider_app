@@ -10,6 +10,7 @@ import 'package:provider_test1/utils/network_status.dart';
 import 'package:provider_test1/utils/route_const.dart';
 import 'package:provider_test1/utils/route_generator.dart';
 import 'package:provider_test1/utils/snackbar.dart';
+import 'package:provider_test1/utils/spin_kit.dart';
 import 'package:provider_test1/utils/string_const.dart';
 import 'package:provider_test1/widgets/custom_elevatedbutton.dart';
 import 'package:provider_test1/widgets/custom_textformfield.dart';
@@ -37,7 +38,18 @@ class _LoginState extends State<Login> {
       appBar: AppBar(title: Text(loginStr)),
       body: Consumer<LoginProvider>(
         builder:
-            (context, loginProvider, child) => SingleChildScrollView(
+            (context, loginProvider, child) => Stack(
+              children: [
+                _loginUi(loginProvider),
+                loginProvider.getLoginStatus==NetworkStatus.loading?Loader.backdropFilter(context):SizedBox()
+              ],
+            )
+      ),
+    );
+  }
+
+  _loginUi(LoginProvider loginProvider){
+    return SingleChildScrollView(
               child: SafeArea(
                 child: Form(
                   key: _formKey,
@@ -90,8 +102,6 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
-            ),
-      ),
-    );
+            );
   }
 }

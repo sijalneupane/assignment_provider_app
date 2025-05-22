@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider_test1/features/assignment/model/assignment_model.dart';
 import 'package:provider_test1/features/assignment/view/add_assignment.dart';
 import 'package:provider_test1/features/assignment/view/get_assignment.dart';
 import 'package:provider_test1/features/home/view/bottom_navbar1.dart';
@@ -37,8 +38,8 @@ class RouteGenerator {
         return PageRouteBuilder(pageBuilder: (_, __, ___) => Login());
       case Routes.signupRoute:
         return PageRouteBuilder(pageBuilder: (_, __, ___) => Register());
-      case Routes.addAssignment:
-        return PageRouteBuilder(pageBuilder: (_, __, ___) => AddAssignment());
+      // case Routes.addAssignment:
+      //   return PageRouteBuilder(pageBuilder: (_, __, ___) => AddAssignment());
       case Routes.getAssignment:
         return PageRouteBuilder(pageBuilder: (_, __, ___) => GetAssignment());
       // case Routes.getStartedRoute:
@@ -61,15 +62,14 @@ class RouteGenerator {
           transitionDuration: const Duration(milliseconds: 600),
           pageBuilder: (_, __, ___) => const Home1(),
         );
-      // case Routes.carDetailsRoute:
-      //   print(settings.arguments);
-
-      //   return PageRouteBuilder(
-      //     transitionDuration: const Duration(milliseconds: 600),
-      //     pageBuilder: (_, __, ___) => CarDetailsPage(
-      //       carDetail: settings.arguments as Car,
-      //     ),
-      //   );
+      case Routes.addAssignment:
+        print(settings.arguments);
+        return PageRouteBuilder(
+          transitionDuration: const Duration(milliseconds: 600),
+          pageBuilder: (_, __, ___) => AddAssignment(
+            assignmentModel: settings.arguments as AssignmentModel,
+          ),
+        );
       // case Routes.carBookingRoute:
       //   return PageRouteBuilder(
       //       pageBuilder: (_, __, ___) => CarBookingPage(

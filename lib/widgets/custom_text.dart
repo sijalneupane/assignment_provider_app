@@ -24,7 +24,8 @@ class CustomText extends StatelessWidget {
     return Text(
       data,
       softWrap: true,
-      textAlign: textAlign ?? TextAlign.center,
+      maxLines: 4,
+      textAlign: textAlign ,
       style: TextStyle(
           color: color ?? Colors.black,
           fontSize: isPageTitle?? false?20:isFormTitle ?? false ?28:fontSize ,
