@@ -6,6 +6,7 @@ import 'package:provider_test1/features/home/view/bottom_navbar1.dart';
 import 'package:provider_test1/features/home/view/home1.dart';
 import 'package:provider_test1/features/login/view/login1.dart';
 import 'package:provider_test1/features/login/view/register1.dart';
+import 'package:provider_test1/utils/notifications_page.dart';
 import 'package:provider_test1/utils/route_const.dart';
 
 class RouteGenerator {
@@ -67,7 +68,7 @@ class RouteGenerator {
         return PageRouteBuilder(
           transitionDuration: const Duration(milliseconds: 600),
           pageBuilder: (_, __, ___) => AddAssignment(
-            assignmentModel: settings.arguments as AssignmentModel,
+            assignmentModel: settings.arguments!=null?settings.arguments as AssignmentModel:null,
           ),
         );
       // case Routes.carBookingRoute:
@@ -94,9 +95,9 @@ class RouteGenerator {
       //               ? settings.arguments as Users
       //               : null));
 
-      // case Routes.notificationRoute:
-      //   return PageRouteBuilder(
-      //       pageBuilder: (_, __, ___) => const NotificationPage());
+      case Routes.notificationRoute:
+        return PageRouteBuilder(
+            pageBuilder: (_, __, ___) => const NotificationsPage());
       default:
         return PageRouteBuilder(
           pageBuilder:

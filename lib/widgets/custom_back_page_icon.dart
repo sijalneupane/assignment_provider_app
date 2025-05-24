@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider_test1/widgets/custom_border_icon_button.dart';
+import 'package:provider_test1/widgets/custom_no_border_icon_button.dart';
 
 class CustomBackPageIcon extends StatelessWidget {
    IconData? icon;
@@ -11,10 +12,10 @@ class CustomBackPageIcon extends StatelessWidget {
     return Align(
       alignment: Alignment.topLeft,
       child:
-      CustomBorderIconButton(onPressed:  () {
+      CustomNoBorderIconButton(onPressed:  () {
           Navigator.pop(context);
           }, icon: Icons.arrow_back,
-          color: Colors.black,) 
+) 
       // Container(
       //   height: MediaQuery.of(context).size.height*0.05,
       //   decoration: BoxDecoration(

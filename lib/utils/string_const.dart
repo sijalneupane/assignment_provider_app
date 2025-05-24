@@ -16,6 +16,7 @@ String registerMessageStr="Account successfully created";
 String registerMessageFailedStr="Account Failed to create";
 
 String addAssignmentStr="Add Assignment";
+String editAssignmentStr="Update Assignment";
 String getAssignmentStr="Get Assignment";
 String subjectNameStr="Subject Name";
 String semesterStr="Semester";
