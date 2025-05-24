@@ -1,5 +1,5 @@
 class AssignmentModel {
-  String? id;
+  int? id;
   String? subjectName;
   String? semester;
   String? deadline;
@@ -16,7 +16,7 @@ class AssignmentModel {
       this.description});
 
   AssignmentModel.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString();
+    id = json['id'];
     subjectName = json['subjectName'];
     semester = json['semester'];
      deadline = json['deadline'];

@@ -30,21 +30,21 @@ class AssignmentProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-setFormValues(AssignmentModel assignmentModel) {
-  subjectController.text = assignmentModel.subjectName!;
-  titleController.text = assignmentModel.title !;
-  descriptionController.text = assignmentModel.description !;
-  faculty = assignmentModel.faculty!;
+  setFormValues(AssignmentModel assignmentModel) {
+    subjectController.text = assignmentModel.subjectName!;
+    titleController.text = assignmentModel.title!;
+    descriptionController.text = assignmentModel.description!;
+    faculty = assignmentModel.faculty!;
+    semester = assignmentModel.semester!;
+    notifyListeners();
+  }
 
-semester = assignmentModel.semester!;
-  notifyListeners();
-}
   String? semester, faculty;
   List assignmentList = [];
   TextEditingController subjectController = TextEditingController();
   TextEditingController titleController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
-  List<String> facultyList = ["BCA", "BIM", "CSIT"];
+  List<String> facultyList = ["BCA", "BIM", "CSIT", "No faculty"];
   List<String> semesterList = [
     "First Semester",
     "Second Semester",
@@ -54,6 +54,7 @@ semester = assignmentModel.semester!;
     "Sixth Semester",
     "Seven Semester",
     "Eight Semester",
+    "No semester",
   ];
 
   // String? token;
@@ -150,8 +151,7 @@ semester = assignmentModel.semester!;
     setEditAssignmentStatus(NetworkStatus.loading);
     AssignmentService assignmentServiceImpl = AssignmentServiceImpl();
     String token = await GetTokenRole().getToken();
-    AssignmentModel assignmentModel = AssignmentModel(
-      id: id,
+    AddAssignmentModel assignmentModel = AddAssignmentModel(
       title: titleController.text,
       subjectName: subjectController.text,
       faculty: faculty,
@@ -163,10 +163,9 @@ semester = assignmentModel.semester!;
       token,
       id,
     );
-    if(response.networkStatus==NetworkStatus.success){
+    if (response.networkStatus == NetworkStatus.success) {
       setEditAssignmentStatus(NetworkStatus.success);
-
-    }else{
+    } else {
       setEditAssignmentStatus(NetworkStatus.error);
     }
   }
