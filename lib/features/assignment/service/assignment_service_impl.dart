@@ -27,9 +27,9 @@ class AssignmentServiceImpl extends AssignmentService{
    }
    
      @override
-     Future<ApiResponse> editAssignment(AssignmentModel editAsssignmentModel, String token,String id)async {
+     Future<ApiResponse> editAssignment(AddAssignmentModel editAsssignmentModel, String token,String id)async {
     String url="${ApiConst.baseUrl+ApiConst.editAssignmentApi}$id/";
-      ApiResponse response=await api.put(ApiConst.baseUrl, editAsssignmentModel);
+      ApiResponse response=await api.put(url, editAsssignmentModel,token: token);
       return response;
      }
 }

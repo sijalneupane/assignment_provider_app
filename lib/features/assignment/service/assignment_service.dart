@@ -6,6 +6,6 @@ abstract class AssignmentService {
   Future<ApiResponse> addAssignment(AddAssignmentModel addAssignmentModel,String token);
   Future<ApiResponse> getAssignment(String token);
   Future<ApiResponse> deleteAssignment(String token,String id);
-  Future<ApiResponse> editAssignment(AssignmentModel asssignmentModel, String token,String id);
+  Future<ApiResponse> editAssignment(AddAssignmentModel asssignmentModel, String token,String id);
   
 }
