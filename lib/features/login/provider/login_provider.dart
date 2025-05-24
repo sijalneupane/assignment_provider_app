@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:provider_test1/features/login/model/login_model.dart';
 import 'package:provider_test1/features/login/model/signup_model.dart';
@@ -10,7 +13,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginProvider extends ChangeNotifier {
   List<String> genderList = ["male", "female", "Others"];
   // List<String> roleList = ["admin", "user"];
-  List<String> roleList = ["teacher", "student","admin"];
+  List<String> roleList = ["teacher", "student", "admin"];
   String? gender, role;
   bool loginPasswordVisible = false;
   bool registerPasswordVisible = false;
@@ -73,17 +76,19 @@ class LoginProvider extends ChangeNotifier {
 
   loginUser() async {
     setLoginStatus(NetworkStatus.loading);
+    String? deviceToken = await FirebaseMessaging.instance.getToken();
     LoginModel loginModel = LoginModel(
       email: emailController.text,
       password: passwordController.text,
+      deviceToken: deviceToken,
     );
     ApiResponse response = await loginService.login(loginModel);
-    if (response.networkStatus==NetworkStatus.success) {
+    if (response.networkStatus == NetworkStatus.success) {
       clearFormFields();
       // Obtain shared preferences.
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       final String token = response.data["token"];
-      final String role=response.data["role"];
+      final String role = response.data["role"];
       prefs.setString("token", token);
       prefs.setString("role", role);
       setLoginStatus(NetworkStatus.success);
@@ -106,13 +111,13 @@ class LoginProvider extends ChangeNotifier {
   //   super.dispose();
   // }
   void clearFormFields() {
-  emailController.clear();
-  passwordController.clear();
-  usernameController.clear();
-  contactController.clear();
-  nameController.clear();
-  role = null;
-  gender = null;
-  notifyListeners();
-}
+    emailController.clear();
+    passwordController.clear();
+    usernameController.clear();
+    contactController.clear();
+    nameController.clear();
+    role = null;
+    gender = null;
+    notifyListeners();
+  }
 }
