@@ -6,13 +6,16 @@ class CustomTextformfield extends StatelessWidget {
   bool? obscureText;
   TextInputType? keyboardType;
   TextEditingController? controller;
-  CustomTextformfield({super.key,this.labelText,this.suffixIcon,this.obscureText,this.keyboardType,this.controller});
+  void Function(String)? onChanged;
+  String? initialValue;
+  CustomTextformfield({super.key,this.labelText,this.suffixIcon,this.obscureText,this.keyboardType,this.controller,this.initialValue,this.onChanged});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20.0,vertical: 10),
       child: TextFormField(
+        initialValue: initialValue,
         controller: controller,
         keyboardType:keyboardType ??TextInputType.text ,
         autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -22,6 +25,7 @@ class CustomTextformfield extends StatelessWidget {
           }
           return null;
         },
+        onChanged: onChanged,
         obscureText:obscureText??false ,
         decoration: InputDecoration(
           labelText:labelText ,

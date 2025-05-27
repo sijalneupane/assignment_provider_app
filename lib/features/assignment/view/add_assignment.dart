@@ -96,6 +96,7 @@ class _AddAssignmentState extends State<AddAssignment> {
                             );
                             if (widget.assignmentModel == null) {
                               await assignmentProvider.addAssignment();
+                              
                               if (assignmentProvider.getAddAssignmentStatus ==
                                   NetworkStatus.success) {
                                 displaySnackBar(
@@ -128,10 +129,11 @@ class _AddAssignmentState extends State<AddAssignment> {
                                 );
                                 Future.delayed(Duration(seconds: 1), () {
                                   // RouteGenerator.navigateToPage(context,Routes.)
-                                  RouteGenerator.navigateToPage(
-                                    context,
-                                    Routes.getAssignment,
-                                  );
+                                  // RouteGenerator.navigateToPage(
+                                  //   context,
+                                  //   Routes.getAssignment,
+                                  // );
+                                  Navigator.pop(context);
                                 });
                               } else {
                                 displaySnackBar(

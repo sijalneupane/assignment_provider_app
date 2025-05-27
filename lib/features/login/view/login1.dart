@@ -41,67 +41,78 @@ class _LoginState extends State<Login> {
             (context, loginProvider, child) => Stack(
               children: [
                 _loginUi(loginProvider),
-                loginProvider.getLoginStatus==NetworkStatus.loading?Loader.backdropFilter(context):SizedBox()
+                loginProvider.getLoginStatus == NetworkStatus.loading
+                    ? Loader.backdropFilter(context)
+                    : SizedBox(),
               ],
-            )
+            ),
       ),
     );
   }
 
-  _loginUi(LoginProvider loginProvider){
+  _loginUi(LoginProvider loginProvider) {
     return SingleChildScrollView(
-              child: SafeArea(
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.3,
-                      ),
-                      CustomTextformfield(
-                        controller: loginProvider.emailController,
-                        labelText: emailStr,
-                        suffixIcon: Icon(Icons.email),
-                      ),
-                      CustomTextformfield(
-                        controller: loginProvider.passwordController,
-                        labelText: passwordStr,
-                        obscureText: loginProvider.loginPasswordVisible,
-                        suffixIcon: IconButton(
-                          onPressed: () {
-                            loginProvider.changeLoginVisibility();
-                          },
-                          icon:
-                              loginProvider.loginPasswordVisible
-                                  ? Icon(Icons.visibility_off)
-                                  : Icon(Icons.visibility),
-                        ),
-                      ),
-                      CustomElevatedbutton(
-                        child:loginProvider.getLoginStatus==NetworkStatus.loading?CircularProgressIndicator.adaptive(): Text(loginStr),
-                        onPressed: () async {
-                          if (_formKey.currentState!.validate()) {
-                            await loginProvider.loginUser();
-                            if(loginProvider.getLoginStatus==NetworkStatus.success){
-                              displaySnackBar(context, loginMessageStr);
-                              RouteGenerator.navigateToPageWithoutStack(context,Routes.bottomNavbarRoute);
-                            }else if(loginProvider.getLoginStatus==NetworkStatus.error){
-                              displaySnackBar(context, loginProvider.loginErrorMessage?? loginMessageFailedStr);
-                            }
-                          }
-                        },
-                      ),
-                      CustomInkwell(
-                        data: notRegisteredStr,
-                        onTap: () {
-                          loginProvider.clearFormFields();
-                          RouteGenerator.navigateToPage(context, Routes.signupRoute);
-                        },
-                      ),
-                    ],
-                  ),
+      child: SafeArea(
+        child: Form(
+          key: _formKey,
+          child: Column(
+            children: [
+              SizedBox(height: MediaQuery.of(context).size.height * 0.3),
+              CustomTextformfield(
+                controller: loginProvider.emailController,
+                labelText: emailStr,
+                suffixIcon: Icon(Icons.email),
+              ),
+              CustomTextformfield(
+                controller: loginProvider.passwordController,
+                labelText: passwordStr,
+                obscureText: loginProvider.loginPasswordVisible,
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    loginProvider.changeLoginVisibility();
+                  },
+                  icon:
+                      loginProvider.loginPasswordVisible
+                          ? Icon(Icons.visibility_off)
+                          : Icon(Icons.visibility),
                 ),
               ),
-            );
+              CustomElevatedbutton(
+                child:
+                    loginProvider.getLoginStatus == NetworkStatus.loading
+                        ? CircularProgressIndicator.adaptive()
+                        : Text(loginStr),
+                onPressed: () async {
+                  if (_formKey.currentState!.validate()) {
+                    await loginProvider.loginUser();
+                    if (loginProvider.getLoginStatus == NetworkStatus.success) {
+                      displaySnackBar(context, loginMessageStr);
+                      RouteGenerator.navigateToPageWithoutStack(
+                        context,
+                        Routes.bottomNavbarRoute,
+                      );
+                    } else if (loginProvider.getLoginStatus ==
+                        NetworkStatus.error) {
+                      displaySnackBar(
+                        context,
+                        loginProvider.loginErrorMessage ??
+                            loginMessageFailedStr,
+                      );
+                    }
+                  }
+                },
+              ),
+              CustomInkwell(
+                data: notRegisteredStr,
+                onTap: () {
+                  loginProvider.clearFormFields();
+                  RouteGenerator.navigateToPage(context, Routes.signupRoute);
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

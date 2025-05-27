@@ -10,7 +10,7 @@ class Routes {
   static const homeRoute = "/home";
   static const bottomNavbarRoute = "/bottomNavbar";
   static const notificationRoute = "/notification";
-  // static const carDetailsRoute = "/carDetails";
+  static const addNotice = "/addNotice";
   // static const carBookingRoute = "/carBooking";
   // static const addCarDetailsRoute = "/addCarDetails";
   // static const viewCarListRoute = "/viewCarList";

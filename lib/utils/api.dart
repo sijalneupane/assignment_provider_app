@@ -70,12 +70,12 @@ class Api {
     }
   }
 
-  Future<ApiResponse> get(String url, {String? token}) async {
+  Future<ApiResponse> get(String url, {String? token, dynamic data}) async {
     try {
       if (token != null) {
         dio.options.headers['Authorization'] = "Bearer $token";
       }
-      Response response = await dio.get(url);
+      Response response = await dio.get(url,data:data);
       if (response.statusCode == 200 || response.statusCode == 201) {
         return ApiResponse(
           networkStatus: NetworkStatus.success,
