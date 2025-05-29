@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider_test1/features/notices/model/add_notices_model.dart';
+import 'package:provider_test1/features/notices/model/get_notices_model.dart';
 import 'package:provider_test1/features/notices/services/notices_service.dart';
 import 'package:provider_test1/features/notices/services/notices_service_impl.dart';
 import 'package:provider_test1/utils/api_response.dart';
@@ -15,7 +16,7 @@ class NoticesProvider extends ChangeNotifier {
     super.dispose();
   }
 
-  // final loginFormKey = GlobalKey<FormState>();
+  final loginFormKey = GlobalKey<FormState>();
   final titleController = TextEditingController();
   final contentController = TextEditingController();
   final dateController = TextEditingController();
@@ -26,12 +27,23 @@ class NoticesProvider extends ChangeNotifier {
   String? errorMsg;
 
   final List<String> audienceOptions = ['ALL', 'BIM', 'BCA', 'CSIT'];
+  checkIfAudienceAreAll(List<String?> selectedItems) {
+    for (var selectedItem in selectedItems) {
+      if (selectedItem == "ALL" || selectedItem == null) {
+        selectedAudience = ["ALL"];
+        return true;
+      }
+    }
+    return false;
+  }
+
   final List<String> categoryOptions = [
     'exam',
     'holiday',
     'general',
     'seminar',
   ];
+
   final List<String> priorityOptions = ['low', 'medium', 'high'];
 
   NetworkStatus _addNoticeStatus = NetworkStatus.idle;
@@ -53,6 +65,7 @@ class NoticesProvider extends ChangeNotifier {
     );
     String token = await GetTokenRole().getToken();
     NoticesService noticesService = NoticesServiceImpl();
+    clearFormFields();
     ApiResponse response = await noticesService.addNotices(
       token,
       addNoticeModel,
@@ -63,10 +76,38 @@ class NoticesProvider extends ChangeNotifier {
     } else {
       setAddNoticeStatus(NetworkStatus.error);
     }
-    clearFormFields();
+  }
+
+  NetworkStatus _getNetworkStatus = NetworkStatus.idle;
+  NetworkStatus get getGetNetworkStatus => _getNetworkStatus;
+  setGetNetworkStatus(NetworkStatus networkStatus) {
+    _getNetworkStatus = networkStatus;
+    notifyListeners();
+  }
+
+  List<GetNoticesModel> notices = []; // Add this to store notices
+
+  // Update getNotice to store fetched notices
+  getNotice() async {
+    setGetNetworkStatus(NetworkStatus.loading);
+    NoticesService noticeServiceImpl = NoticesServiceImpl();
+    String token = await GetTokenRole().getToken();
+    ApiResponse response = await noticeServiceImpl.getNotices(token);
+    if (response.networkStatus == NetworkStatus.success) {
+      notices =
+          (response.data as List)
+              .map((json) => GetNoticesModel.fromJson(json))
+              .toList();
+      setGetNetworkStatus(NetworkStatus.success);
+    } else {
+      errorMsg =
+          response.errorMessaage; // Note: Fix typo to errorMessage if needed
+      setGetNetworkStatus(NetworkStatus.error);
+    }
   }
 
   void clearFormFields() {
+    loginFormKey.currentState?.reset();
     titleController.clear();
     contentController.clear();
     dateController.clear();

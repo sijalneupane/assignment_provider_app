@@ -7,7 +7,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_test1/features/assignment/provider/assignment_provider.dart';
 import 'package:provider_test1/features/assignment/view/get_assignment.dart';
+import 'package:provider_test1/features/home/provider/theme_provider.dart';
 import 'package:provider_test1/features/home/view/bottom_navbar1.dart';
+import 'package:provider_test1/features/home/view/splash_screen.dart';
 import 'package:provider_test1/features/login/provider/login_provider.dart';
 import 'package:provider_test1/features/login/view/login1.dart';
 import 'package:provider_test1/features/notices/provider/notices_provider.dart';
@@ -15,6 +17,7 @@ import 'package:provider_test1/features/notices/view/add_notice.dart';
 import 'package:provider_test1/firebase_options.dart';
 import 'package:provider_test1/utils/route_const.dart';
 import 'package:provider_test1/utils/search_POS.dart';
+import 'package:provider_test1/utils/theme.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -199,23 +202,47 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => LoginProvider()),
-        ChangeNotifierProvider(create: (_) => AssignmentProvider()),
-        ChangeNotifierProvider(create: (_)=>NoticesProvider()),
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          scaffoldBackgroundColor: Colors.white,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+    return ChangeNotifierProvider(
+      create: (context) => ThemeProvider(),
+      child: Consumer<ThemeProvider>(
+        builder: (context, themeProvider, child) =>  MultiProvider(
+          providers: [
+            // ChangeNotifierProvider(create: (context) => ThemeProvider()),
+            ChangeNotifierProvider(create: (context) => LoginProvider()),
+            ChangeNotifierProvider(create: (_) => AssignmentProvider()),
+            ChangeNotifierProvider(create: (_)=>NoticesProvider()),
+          ],
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            title: 'Flutter Demo',themeMode: themeProvider.themeMode,
+            theme: ThemeData(
+              brightness: Brightness.light,
+              primarySwatch: Colors.blue,
+              appBarTheme: AppBarTheme(
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+              ),
+            ),
+            darkTheme: ThemeData(
+              brightness: Brightness.dark,
+              primarySwatch: Colors.blue,
+              appBarTheme: AppBarTheme(
+                backgroundColor: Colors.grey[900],
+                foregroundColor: Colors.white,
+              ),
+            ),
+            
+            
+            // theme: ThemeData(
+              // scaffoldBackgroundColor: Colors.white,
+              // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+            // // ),
+            home: SplashScreen(),
+            // home: AddNoticeForm(),
+            // home: BottomNavbar1(),
+            // home:SearchBarExample()
+          ),
         ),
-        // home: Login(),
-        // home: AddNoticeForm(),
-        // home: BottomNavbar1(),
-        home:SearchBarExample()
       ),
     );
   }

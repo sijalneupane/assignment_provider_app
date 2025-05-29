@@ -58,8 +58,37 @@ const String deleteAssignmentFailedStr="Failed to delete Assignment ";
 //notice part
 const String addNoticeStr="Add Notice";
 const String editNoticeStr="Edit Notice";
+const String getNoticeStr="Get Notice";
+const String noNoticeFoundStr="No notice found";
 const String addNoticeSuccessStr="Notice added Successfully";
 const String editNoticeSuccessStr="Notice Updated Successfully";
 const String addNoticeFailedStr="Failed to add Notice";
 const String editNoticeFailedStr="Failed to edit Notice";
-// const String validate
+const String contentStr="Content";
+const String noticeDateStr="Notice Date";
+const String priorityStr="Priority";
+const String targetAudienceStr="Target Audience";
+const String categoryStr="Category";
+
+
+
+//get notices 
+const String noticesStr='Notices';
+const String failedToFetchNotices='Failed to load notices';
+const String retryStr='Retry';
+const String noNoticesAvailable='No notices available';
+const String noTitleStr="No Title";
+const String dateStr="Date";
+const String naStr="N/A";
+const String noContentStr="No Content";
+// const String priorityStr="Priority";
+// const String categoryStr="Category";
+const String issuedByStr="Issued By";
+const String unknownStr="Unknown";
+const String idStr='ID';
+const String createdDateStr="Created Date";
+const String updatedDateStr="Updated Date";
+const String initializingStr='Initializing...';
+const String highStr='high';
+const String mediumStr='medium';
+const String lowStr='low';

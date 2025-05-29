@@ -1,5 +1,5 @@
 class ApiConst{
-    static String baseUrl="https://2ec9-110-44-118-114.ngrok-free.app";
+    static String baseUrl="https://2fbb-2400-1a00-b060-f7d9-c04a-9617-7739-1b09.ngrok-free.app";
     static String signUpApi="/createUser/";
      static String loginApi="/login/";
     static String addAssignmentApi="/addAssignment/";

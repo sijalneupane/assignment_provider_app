@@ -8,7 +8,8 @@ class CustomTextformfield extends StatelessWidget {
   TextEditingController? controller;
   void Function(String)? onChanged;
   String? initialValue;
-  CustomTextformfield({super.key,this.labelText,this.suffixIcon,this.obscureText,this.keyboardType,this.controller,this.initialValue,this.onChanged});
+  String? Function(String?)? validator;
+  CustomTextformfield({super.key,this.labelText,this.suffixIcon,this.obscureText,this.keyboardType,this.controller,this.initialValue,this.onChanged,this.validator});
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +20,7 @@ class CustomTextformfield extends StatelessWidget {
         controller: controller,
         keyboardType:keyboardType ??TextInputType.text ,
         autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator:(value) {
-          if(value!.isEmpty){
-            return "$labelText cannot be empty";
-          }
-          return null;
-        },
+        validator: validator,
         onChanged: onChanged,
         obscureText:obscureText??false ,
         decoration: InputDecoration(
