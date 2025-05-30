@@ -7,6 +7,7 @@ import 'package:provider_test1/features/home/view/home1.dart';
 import 'package:provider_test1/features/login/view/login1.dart';
 import 'package:provider_test1/features/login/view/register1.dart';
 import 'package:provider_test1/features/notices/view/add_notice.dart';
+import 'package:provider_test1/features/notices/view/get_notice.dart';
 import 'package:provider_test1/utils/notifications_page.dart';
 import 'package:provider_test1/utils/route_const.dart';
 
@@ -87,16 +88,13 @@ class RouteGenerator {
                         : null,
               ),
         );
-      case Routes.addNotice:
+      case Routes.addNoticeRoute:
         return PageRouteBuilder(pageBuilder: (_, __, ___) => AddNoticeForm());
-      // case Routes.addCarDetailsRoute:
-      //   return PageRouteBuilder(
-      //     pageBuilder: (_, __, ___) => AddCarForm(
-      //         car: settings.arguments != null
-      //             ? settings.arguments as Car
-      //             : null),
-      //     //  pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {  }
-      //   );
+      case Routes.getNoticeRoute:
+        return PageRouteBuilder(
+          pageBuilder: (_, __, ___) => GetNoticeScreen()
+          //  pageBuilder: (BuildContext context, Animation<double> animation, Animation<double> secondaryAnimation) {  }
+        );
       // case Routes.viewCarListRoute:
       //   return PageRouteBuilder(
       //       pageBuilder: (_, __, ___) => ViewCarListScreen(

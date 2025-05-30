@@ -153,11 +153,11 @@ class AddNoticeForm extends StatelessWidget {
                             NetworkStatus.success) {
                           displaySnackBar(context, addNoticeSuccessStr);
 
-                          // RouteGenerator.navigateToPageReplacement(context,Routes.getAssignment);
-                          RouteGenerator.navigateToPage(
-                            context,
-                            Routes.getAssignment,
-                          );
+                          RouteGenerator.navigateToPageReplacement(context,Routes.getAssignment);
+                          // RouteGenerator.navigateToPage(
+                          //   context,
+                          //   Routes.getAssignment,
+                          // );
                         } else {
                           displaySnackBar(
                             context,

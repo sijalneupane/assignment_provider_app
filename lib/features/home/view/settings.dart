@@ -41,8 +41,19 @@ class _SettingsState extends State<Settings> {
                 RouteGenerator.navigateToPage(context, Routes.getAssignment);
               },
             ),
-            SettingElevatedButton(data:addNoticeStr, onPressed:() {
-              RouteGenerator.navigateToPage(context,Routes.addNotice
+            SettingElevatedButton(data:addNoticeStr,
+            backgroundColor: Colors.green,
+             onPressed:() {
+              
+              RouteGenerator.navigateToPage(context,Routes.addNoticeRoute
+              );
+            },),
+            
+            SettingElevatedButton(data:getNoticeStr,
+            backgroundColor: Colors.blue,
+             onPressed:() {
+              
+              RouteGenerator.navigateToPage(context,Routes.getNoticeRoute
               );
             },),
             SettingElevatedButton(

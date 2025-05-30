@@ -17,7 +17,6 @@ import 'package:provider_test1/features/notices/view/add_notice.dart';
 import 'package:provider_test1/firebase_options.dart';
 import 'package:provider_test1/utils/route_const.dart';
 import 'package:provider_test1/utils/search_POS.dart';
-import 'package:provider_test1/utils/theme.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -215,29 +214,30 @@ class _MyAppState extends State<MyApp> {
           child: MaterialApp(
             debugShowCheckedModeBanner: false,
             title: 'Flutter Demo',themeMode: themeProvider.themeMode,
-            theme: ThemeData(
-              brightness: Brightness.light,
-              primarySwatch: Colors.blue,
-              appBarTheme: AppBarTheme(
-                backgroundColor: Colors.blue,
-                foregroundColor: Colors.white,
-              ),
-            ),
-            darkTheme: ThemeData(
-              brightness: Brightness.dark,
-              primarySwatch: Colors.blue,
-              appBarTheme: AppBarTheme(
-                backgroundColor: Colors.grey[900],
-                foregroundColor: Colors.white,
-              ),
-            ),
+            // theme: ThemeData(
+            //   brightness: Brightness.light,
+            //   primarySwatch: Colors.blue,
+            //   appBarTheme: AppBarTheme(
+            //     backgroundColor: Colors.blue,
+            //     foregroundColor: Colors.white,
+            //   ),
+            // ),
+            // darkTheme: ThemeData(
+            //   brightness: Brightness.dark,
+            //   primarySwatch: Colors.blue,
+            //   appBarTheme: AppBarTheme(
+            //     backgroundColor: Colors.grey[900],
+            //     foregroundColor: Colors.white,
+            //   ),
+            // ),
             
             
             // theme: ThemeData(
               // scaffoldBackgroundColor: Colors.white,
               // colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
             // // ),
-            home: SplashScreen(),
+            home: Login(),
+            // home: SplashScreen(),
             // home: AddNoticeForm(),
             // home: BottomNavbar1(),
             // home:SearchBarExample()

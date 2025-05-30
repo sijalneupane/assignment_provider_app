@@ -41,7 +41,7 @@ class _GetAssignmentState extends State<GetAssignment> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
-           RouteGenerator.navigateToPageWithoutStack(context, Routes.addNotice);
+           RouteGenerator.navigateToPageWithoutStack(context, Routes.addNoticeRoute);
           },
           icon: Icon(Icons.arrow_back_ios, color: Colors.white),
         ),
