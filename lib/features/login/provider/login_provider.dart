@@ -8,6 +8,7 @@ import 'package:provider_test1/features/login/service/login_service.dart';
 import 'package:provider_test1/features/login/service/login_service_impl.dart';
 import 'package:provider_test1/utils/api_response.dart';
 import 'package:provider_test1/utils/network_status.dart';
+import 'package:provider_test1/utils/string_const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginProvider extends ChangeNotifier {
@@ -22,6 +23,7 @@ class LoginProvider extends ChangeNotifier {
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController contactController = TextEditingController();
+  String? loginErrorMessage;
 
   //network status for register
   NetworkStatus _registerStatus = NetworkStatus.idle;
@@ -52,6 +54,7 @@ class LoginProvider extends ChangeNotifier {
     if (response.statusCode == 200 || response.statusCode == 201) {
       setRegisterStatus(NetworkStatus.success);
     } else {
+    
       setRegisterStatus(NetworkStatus.error);
     }
   }
@@ -66,9 +69,8 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  NetworkStatus _loginStatus = NetworkStatus.idle;
   NetworkStatus get getLoginStatus => _loginStatus;
-  String? loginErrorMessage;
+  NetworkStatus _loginStatus = NetworkStatus.idle;
   setLoginStatus(NetworkStatus networkStatus) {
     _loginStatus = networkStatus;
     notifyListeners();
@@ -76,7 +78,10 @@ class LoginProvider extends ChangeNotifier {
 
   loginUser() async {
     setLoginStatus(NetworkStatus.loading);
-    String? deviceToken = await FirebaseMessaging.instance.getToken();
+    try {
+      String? deviceToken = await FirebaseMessaging.instance.getToken();
+     
+    
     LoginModel loginModel = LoginModel(
       email: emailController.text,
       password: passwordController.text,
@@ -93,8 +98,13 @@ class LoginProvider extends ChangeNotifier {
       prefs.setString("role", role);
       setLoginStatus(NetworkStatus.success);
     } else {
-      loginErrorMessage = response.errorMessaage;
+        
       setLoginStatus(NetworkStatus.error);
+    }
+    } on Exception {
+      loginErrorMessage="Failed to get Device Info, Connect to internet";
+       setLoginStatus(NetworkStatus.error);
+        
     }
   }
 
@@ -119,5 +129,19 @@ class LoginProvider extends ChangeNotifier {
     role = null;
     gender = null;
     notifyListeners();
+  }
+
+  validateEmail(String? value) {
+    if (value!.isEmpty) {
+      return emailValidationStr;
+    }
+    return null;
+  }
+
+  validatePassword(String? value) {
+    if (value!.isEmpty) {
+      return passwordValidationStr;
+    }
+    return null;
   }
 }

@@ -5,7 +5,9 @@ import 'package:provider_test1/features/home/view/bottom_navbar1.dart';
 import 'package:provider_test1/features/login/provider/login_provider.dart';
 import 'package:provider_test1/features/login/view/register1.dart';
 import 'package:provider_test1/utils/api_const.dart';
+import 'package:provider_test1/utils/background_imgae.dart';
 import 'package:provider_test1/utils/custom_inkwell.dart';
+import 'package:provider_test1/utils/hide_keyboard.dart';
 import 'package:provider_test1/utils/network_status.dart';
 import 'package:provider_test1/utils/route_const.dart';
 import 'package:provider_test1/utils/route_generator.dart';
@@ -35,82 +37,88 @@ class _LoginState extends State<Login> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text(loginStr)),
+      //  resizeToAvoidBottomInset: false,
       body: Consumer<LoginProvider>(
         builder:
-            (context, loginProvider, child) => Stack(
-              children: [
-                _loginUi(loginProvider),
-                loginProvider.getLoginStatus == NetworkStatus.loading
-                    ? Loader.backdropFilter(context)
-                    : SizedBox(),
-              ],
+            (context, loginProvider, child) => SizedBox(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Stack(
+                children: [
+                  BackgroundImage(),
+                  _loginUi(loginProvider),
+                  loginProvider.getLoginStatus == NetworkStatus.loading
+                      ? Loader.backdropFilter(context)
+                      : SizedBox(),
+                ],
+              ),
             ),
       ),
     );
   }
 
   _loginUi(LoginProvider loginProvider) {
-    return SingleChildScrollView(
-      child: SafeArea(
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              SizedBox(height: MediaQuery.of(context).size.height * 0.3),
-              CustomTextformfield(
-                controller: loginProvider.emailController,
-                labelText: emailStr,
-                suffixIcon: Icon(Icons.email),
+    return SafeArea(
+      child: Form(
+        key: _formKey,
+        child: Column(
+          children: [
+            SizedBox(height: MediaQuery.of(context).size.height * 0.3),
+            CustomTextformfield(
+              controller: loginProvider.emailController,
+              labelText: emailStr,
+              suffixIcon: Icon(Icons.email),
+              validator: (value) {
+                return loginProvider.validateEmail(value);
+              },
+            ),
+            CustomTextformfield(
+              controller: loginProvider.passwordController,
+              labelText: passwordStr,
+              obscureText: loginProvider.loginPasswordVisible,
+              validator: (value) {
+                return loginProvider.validatePassword(value);
+              },
+              suffixIcon: IconButton(
+                onPressed: () {
+                  loginProvider.changeLoginVisibility();
+                },
+                icon:
+                    loginProvider.loginPasswordVisible
+                        ? Icon(Icons.visibility_off)
+                        : Icon(Icons.visibility),
               ),
-              CustomTextformfield(
-                controller: loginProvider.passwordController,
-                labelText: passwordStr,
-                obscureText: loginProvider.loginPasswordVisible,
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    loginProvider.changeLoginVisibility();
-                  },
-                  icon:
-                      loginProvider.loginPasswordVisible
-                          ? Icon(Icons.visibility_off)
-                          : Icon(Icons.visibility),
-                ),
-              ),
-              CustomElevatedbutton(
-                child:
-                    loginProvider.getLoginStatus == NetworkStatus.loading
-                        ? CircularProgressIndicator.adaptive()
-                        : Text(loginStr),
-                onPressed: () async {
-                  if (_formKey.currentState!.validate()) {
-                    await loginProvider.loginUser();
-                    if (loginProvider.getLoginStatus == NetworkStatus.success) {
-                      displaySnackBar(context, loginMessageStr);
-                      RouteGenerator.navigateToPageWithoutStack(
-                        context,
-                        Routes.bottomNavbarRoute,
-                      );
-                    } else if (loginProvider.getLoginStatus ==
-                        NetworkStatus.error) {
-                      displaySnackBar(
-                        context,
-                        loginProvider.loginErrorMessage ??
-                            loginMessageFailedStr,
-                      );
-                    }
+            ),
+            CustomElevatedbutton(
+              child: Text(loginStr),
+              onPressed: () async {
+                HideKeyboard.hideKeyboard(context);
+                if (_formKey.currentState!.validate()) {
+                  await loginProvider.loginUser();
+                  if (loginProvider.getLoginStatus == NetworkStatus.success) {
+                    displaySnackBar(context, loginMessageStr);
+                    RouteGenerator.navigateToPageWithoutStack(
+                      context,
+                      Routes.bottomNavbarRoute,
+                    );
+                  } else if (loginProvider.getLoginStatus ==
+                      NetworkStatus.error) {
+                    displaySnackBar(
+                      context,
+                      loginProvider.loginErrorMessage ?? loginMessageFailedStr,
+                    );
                   }
-                },
-              ),
-              CustomInkwell(
-                data: notRegisteredStr,
-                onTap: () {
-                  loginProvider.clearFormFields();
-                  RouteGenerator.navigateToPage(context, Routes.signupRoute);
-                },
-              ),
-            ],
-          ),
+                }
+              },
+            ),
+            CustomOnTapLink(
+              data: notRegisteredStr,
+              onTap: () {
+                RouteGenerator.navigateToPage(context, Routes.signupRoute);
+                loginProvider.clearFormFields();
+              },
+            ),
+          ],
         ),
       ),
     );
