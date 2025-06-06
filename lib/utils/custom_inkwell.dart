@@ -2,16 +2,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider_test1/widgets/custom_text.dart';
 
-class CustomInkwell extends StatelessWidget {
+class CustomOnTapLink extends StatelessWidget {
   String data;
   void Function()? onTap;
-   CustomInkwell({super.key,required this.data,this.onTap});
+   CustomOnTapLink({super.key,required this.data,this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child:CustomText(data:data) ,
+    return GestureDetector(
       onTap: onTap,
+      child:CustomText(data:data) ,
     );
   }
 }

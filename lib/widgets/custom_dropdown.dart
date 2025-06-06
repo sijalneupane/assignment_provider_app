@@ -7,39 +7,47 @@ class CustomDropdown extends StatelessWidget {
   String? labelText;
   TextEditingController? controller;
   String? value;
+  EdgeInsetsGeometry? outerPadding;
   CustomDropdown({
     super.key,
     required this.dropDownItemList,
     this.onChanged,
     this.labelText,
     this.controller,
-    this.value
+    this.value,
   });
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-      child: DropdownButtonFormField(
-        value:value,
-        dropdownColor: const Color.fromARGB(255, 62, 135, 153),
-        decoration: InputDecoration(
-          labelText: labelText,
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 80),
+
+      child: Padding(
+        padding: outerPadding ??const EdgeInsets.symmetric(horizontal: 12.0, vertical: 5),
+
+        child: DropdownButtonFormField(
+          value: value,
+          dropdownColor: const Color.fromARGB(255, 62, 135, 153),
+          decoration: InputDecoration(
+            labelText: labelText,
+            contentPadding: EdgeInsets.symmetric(horizontal: 10),
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(5)),
+          ),
+          items:
+              dropDownItemList
+                  .map(
+                    (e) =>
+                        DropdownMenuItem(value: e, child: CustomText(data: e)),
+                  )
+                  .toList(),
+          onChanged: onChanged,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          validator: (value) {
+            if (value == null) {
+              return "$labelText cannot be empty";
+            }
+            return null;
+          },
         ),
-        items:
-            dropDownItemList
-                .map(
-                  (e) => DropdownMenuItem(value: e, child: CustomText(data: e)),
-                )
-                .toList(),
-        onChanged: onChanged,
-        autovalidateMode: AutovalidateMode.onUserInteraction,
-        validator: (value) {
-          if (value == null) {
-            return "$labelText cannot be empty";
-          }
-          return null;
-        },
       ),
     );
   }

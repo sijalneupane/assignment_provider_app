@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
-import 'package:provider_test1/utils/custom_icons.dart';
+import 'package:provider_test1/widgets/custom_icons.dart';
+ 
 
 class CustomNoBorderIconButton extends StatelessWidget {
  Function()? onPressed;
@@ -12,6 +13,7 @@ class CustomNoBorderIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
+      splashRadius: 1,
         onPressed:onPressed,
         color: iconButtonColor,
         icon: CustomIcons (icon: icon,color: iconColor,));

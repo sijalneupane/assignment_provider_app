@@ -1,3 +1,4 @@
+const String emptyStr = "";
 String emailStr="Email";
 String usernameStr="Username";
 String passwordStr="Password";
@@ -14,6 +15,8 @@ String confirmStr="Confirm";
 String cancelStr="Cancel";
 String registerMessageStr="Account successfully created";
 String registerMessageFailedStr="Account Failed to create";
+String emailValidationStr="Please enter email";
+String passwordValidationStr="Please enter password";
 
 String addAssignmentStr="Add Assignment";
 String editAssignmentStr="Update Assignment";
@@ -69,7 +72,11 @@ const String noticeDateStr="Notice Date";
 const String priorityStr="Priority";
 const String targetAudienceStr="Target Audience";
 const String categoryStr="Category";
-
+const String galleryStr="Gallery";
+const String cameraStr="Camera";
+const String deleteImgStr="Delete Image";
+const String viewImgStr="View Image";
+const String addImageStr="Add Image";
 
 
 //get notices 
