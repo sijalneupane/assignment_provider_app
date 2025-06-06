@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:provider_test1/features/notices/model/add_notices_model.dart';
 import 'package:provider_test1/features/notices/model/get_notices_model.dart';
@@ -105,6 +107,16 @@ class NoticesProvider extends ChangeNotifier {
       setGetNetworkStatus(NetworkStatus.error);
     }
   }
+
+void afterPickingImage(File? imageFile) {
+  if (imageFile != null) {
+    // Handle the picked image file
+    debugPrint("Image picked: ${imageFile.path}");
+  } else {
+    // Handle case where no image is picked
+    debugPrint("No image picked");
+  }
+}
 
   void clearFormFields() {
     loginFormKey.currentState?.reset();
