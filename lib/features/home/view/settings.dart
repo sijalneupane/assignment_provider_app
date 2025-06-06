@@ -27,7 +27,7 @@ class _SettingsState extends State<Settings> {
           children: [
             SettingElevatedButton(
               icon: Icons.add_sharp,
-              backgroundColor: Colors.green,
+              // backgroundColor: Colors.green,
               data: addAssignmentStr,
               onPressed: () {
                 RouteGenerator.navigateToPage(context, Routes.addAssignment);
@@ -35,14 +35,14 @@ class _SettingsState extends State<Settings> {
             ),
             SettingElevatedButton(
               icon: Icons.format_list_numbered,
-              backgroundColor: Colors.blue,
+              // backgroundColor: Colors.blue,
               data: getAssignmentStr,
               onPressed: () {
                 RouteGenerator.navigateToPage(context, Routes.getAssignment);
               },
             ),
             SettingElevatedButton(data:addNoticeStr,
-            backgroundColor: Colors.green,
+            // backgroundColor: Colors.green,
              onPressed:() {
               
               RouteGenerator.navigateToPage(context,Routes.addNoticeRoute
@@ -50,7 +50,7 @@ class _SettingsState extends State<Settings> {
             },),
             
             SettingElevatedButton(data:getNoticeStr,
-            backgroundColor: Colors.blue,
+            // backgroundColor: Colors.blue,
              onPressed:() {
               
               RouteGenerator.navigateToPage(context,Routes.getNoticeRoute
@@ -60,6 +60,8 @@ class _SettingsState extends State<Settings> {
               data: logoutStr,
               icon: Icons.logout,
               backgroundColor: Colors.red,
+              textColor: Theme.of(context).primaryColorDark,
+              
               onPressed: () async {
                 DialogBox.showConfirmBox(
                   context: context,
