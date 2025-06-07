@@ -20,6 +20,17 @@ class AssignmentProvider extends ChangeNotifier {
   // AssignmentProvider(){
   //   getAssignment();
   // }
+  final GlobalKey<FormState> updateformKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> addformKey = GlobalKey<FormState>();
+
+  // @override
+  // void dispose() {
+  //   subjectController.dispose();
+  //   titleController.dispose();
+  //   descriptionController.dispose();
+  //   clearFormFields();
+  //   super.dispose();
+  // }
   void clearFormFields() {
     subjectController.clear();
     titleController.clear();
@@ -27,7 +38,9 @@ class AssignmentProvider extends ChangeNotifier {
     faculty = null;
     semester = null;
     assignmentList = [];
-    notifyListeners();
+    addformKey.currentState?.reset();
+    updateformKey.currentState?.reset();
+    // notifyListeners();
   }
 
   setFormValues(AssignmentModel assignmentModel) {
@@ -36,7 +49,7 @@ class AssignmentProvider extends ChangeNotifier {
     descriptionController.text = assignmentModel.description!;
     faculty = assignmentModel.faculty!;
     semester = assignmentModel.semester!;
-    notifyListeners();
+    // notifyListeners();
   }
 
   String? semester, faculty;
@@ -69,7 +82,7 @@ class AssignmentProvider extends ChangeNotifier {
 
   addAssignment() async {
     setAddAssignmentStatus(NetworkStatus.loading);
-    AssignmentServiceImpl assignmentServiceImpl = AssignmentServiceImpl();
+    AssignmentService assignmentServiceImpl = AssignmentServiceImpl();
     String token = await GetTokenRole().getToken();
     AddAssignmentModel addAssignmentModel = AddAssignmentModel(
       title: titleController.text,
@@ -83,8 +96,8 @@ class AssignmentProvider extends ChangeNotifier {
       token,
     );
     if (response.networkStatus == NetworkStatus.success) {
-      setAddAssignmentStatus(NetworkStatus.success);
       clearFormFields();
+      setAddAssignmentStatus(NetworkStatus.success);
     } else {
       setAddAssignmentStatus(NetworkStatus.error);
     }
@@ -164,6 +177,7 @@ class AssignmentProvider extends ChangeNotifier {
       id,
     );
     if (response.networkStatus == NetworkStatus.success) {
+      clearFormFields();
       setEditAssignmentStatus(NetworkStatus.success);
     } else {
       setEditAssignmentStatus(NetworkStatus.error);

@@ -17,6 +17,7 @@ String registerMessageStr="Account successfully created";
 String registerMessageFailedStr="Account Failed to create";
 String emailValidationStr="Please enter email";
 String passwordValidationStr="Please enter password";
+const String rememberMeStr="Remember Me";
 
 String addAssignmentStr="Add Assignment";
 String editAssignmentStr="Update Assignment";

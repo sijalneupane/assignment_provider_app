@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider_test1/utils/color_utils.dart';
 
 class CustomElevatedbutton extends StatelessWidget {
   Function()? onPressed;
@@ -15,7 +16,7 @@ class CustomElevatedbutton extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         child: ElevatedButton(onPressed:onPressed, child:child,style: ElevatedButton.styleFrom(
           foregroundColor: Colors.white,
-          backgroundColor: const Color.fromARGB(255, 170, 34, 24),
+          backgroundColor: fourthColor,
           textStyle: TextStyle(fontSize: 20),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))
         ),)),

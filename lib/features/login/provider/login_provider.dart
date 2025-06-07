@@ -24,6 +24,7 @@ class LoginProvider extends ChangeNotifier {
   TextEditingController nameController = TextEditingController();
   TextEditingController contactController = TextEditingController();
   String? loginErrorMessage;
+  bool? rememberMe = false;
 
   //network status for register
   NetworkStatus _registerStatus = NetworkStatus.idle;
@@ -54,7 +55,6 @@ class LoginProvider extends ChangeNotifier {
     if (response.statusCode == 200 || response.statusCode == 201) {
       setRegisterStatus(NetworkStatus.success);
     } else {
-    
       setRegisterStatus(NetworkStatus.error);
     }
   }
@@ -69,6 +69,11 @@ class LoginProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  changeRememberMe(bool? value) {
+    rememberMe = value;
+    notifyListeners();
+  }
+
   NetworkStatus get getLoginStatus => _loginStatus;
   NetworkStatus _loginStatus = NetworkStatus.idle;
   setLoginStatus(NetworkStatus networkStatus) {
@@ -80,31 +85,33 @@ class LoginProvider extends ChangeNotifier {
     setLoginStatus(NetworkStatus.loading);
     try {
       String? deviceToken = await FirebaseMessaging.instance.getToken();
-     
-    
-    LoginModel loginModel = LoginModel(
-      email: emailController.text,
-      password: passwordController.text,
-      deviceToken: deviceToken,
-    );
-    ApiResponse response = await loginService.login(loginModel);
-    if (response.networkStatus == NetworkStatus.success) {
-      clearFormFields();
-      // Obtain shared preferences.
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      final String token = response.data["token"];
-      final String role = response.data["role"];
-      prefs.setString("token", token);
-      prefs.setString("role", role);
-      setLoginStatus(NetworkStatus.success);
-    } else {
-        
-      setLoginStatus(NetworkStatus.error);
-    }
+      LoginModel loginModel = LoginModel(
+        email: emailController.text,
+        password: passwordController.text,
+        deviceToken: deviceToken,
+      );
+      ApiResponse response = await loginService.login(loginModel);
+      if (response.networkStatus == NetworkStatus.success) {
+        clearFormFields();
+        // Obtain shared preferences.
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        final String token = response.data["token"];
+        final String role = response.data["role"];
+        final String email = response.data["email"];
+        final String id = response.data["id"].toString();
+        final String username = response.data["username"];
+        final String name = response.data["name"];
+        prefs.setString("token", token);
+        prefs.setString("role", role);
+        setLoginStatus(NetworkStatus.success);
+        saveRememberMeValue();
+        saveUserCredentials(role: role, email: email, username: username, name: name,id:id);
+      } else {
+        setLoginStatus(NetworkStatus.error);
+      }
     } on Exception {
-      loginErrorMessage="Failed to get Device Info, Connect to internet";
-       setLoginStatus(NetworkStatus.error);
-        
+      loginErrorMessage = "Failed to get Device Info, Connect to internet";
+      setLoginStatus(NetworkStatus.error);
     }
   }
 
@@ -143,5 +150,25 @@ class LoginProvider extends ChangeNotifier {
       return passwordValidationStr;
     }
     return null;
+  }
+
+  Future<void> saveRememberMeValue() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('rememberMe', rememberMe ?? false);
+  }
+
+  Future<void> saveUserCredentials({
+    required String role,
+    required String email,
+    required String username,
+    required String name,
+    required String id,
+  }) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('id', id);
+    await prefs.setString('role', role);
+    await prefs.setString('email', email);
+    await prefs.setString('username', username);
+    await prefs.setString('name', name);
   }
 }

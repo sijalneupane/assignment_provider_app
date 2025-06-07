@@ -14,6 +14,6 @@ class Routes {
   static const getNoticeRoute = "/getNotice";
   // static const addCarDetailsRoute = "/addCarDetails";
   // static const viewCarListRoute = "/viewCarList";
-  // static const settingsRoute = "/settings";
+  static const settingsRoute = "/settings";
 
 }

@@ -8,14 +8,18 @@ class SettingElevatedButton extends StatelessWidget {
   final IconData? icon;
   final Color? textColor;
   final Color? backgroundColor;
+   Color? borderColor;
+   Color? foregroundColor;
 
-  const SettingElevatedButton({
+   SettingElevatedButton({
     super.key,
     this.textColor,
     required this.data,
     required this.onPressed,
     this.icon,
     this.backgroundColor,
+    this.borderColor,
+    this.foregroundColor,
   });
 
   @override
@@ -31,9 +35,9 @@ class SettingElevatedButton extends StatelessWidget {
           onPressed: onPressed,
           
           style: ElevatedButton.styleFrom(
-            side: BorderSide(color: Colors.blue),
+            side: BorderSide(color:borderColor?? Colors.blue),
             backgroundColor: backgroundColor??Colors.white,
-            foregroundColor: Theme.of(context).primaryColor,
+            foregroundColor: foregroundColor??Theme.of(context).primaryColor,
             shape: RoundedRectangleBorder(
               
               borderRadius: BorderRadius.circular(15),
@@ -41,11 +45,16 @@ class SettingElevatedButton extends StatelessWidget {
           ),
           child: Row(
             children: [
-              CustomIcons(icon: icon),
+              CustomIcons(icon: icon,
+                color:foregroundColor?? Theme.of(context).primaryColor,
+              
+              ),
               SizedBox(width: MediaQuery.of(context).size.width * 0.03),
-              CustomText(data: data, color:textColor?? Theme.of(context).primaryColor, fontSize: 16),
+              Text(data, style:TextStyle(fontSize: 16) ),
               Spacer(),
-              CustomIcons(icon: Icons.arrow_forward_ios),
+              CustomIcons(icon: Icons.arrow_forward_ios,
+                color:foregroundColor?? Theme.of(context).primaryColor,
+              ),
             ],
           ),
         ),

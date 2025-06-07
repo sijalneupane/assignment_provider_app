@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider_test1/main.dart';
 import 'package:provider_test1/widgets/custom_icon_button.dart';
 import 'package:provider_test1/widgets/custom_icons.dart';
 import 'package:provider_test1/widgets/custom_no_border_icon_button.dart';
@@ -18,7 +19,7 @@ displaySnackBar(BuildContext context, String message) {
           top: 0,
           child:GestureDetector(
             child: CustomIcons(icon: Icons.close,color: Colors.white,),
-            onTap: () => ScaffoldMessenger.of(context).hideCurrentSnackBar(),
+            onTap: () => MyApp.scaffoldMessengerKey.currentState?.hideCurrentSnackBar()
           )
           ),
         
@@ -28,5 +29,6 @@ displaySnackBar(BuildContext context, String message) {
     behavior: SnackBarBehavior.floating,
     clipBehavior: Clip.antiAlias,
   );
-  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+ MyApp.scaffoldMessengerKey.currentState?.showSnackBar(snackBar);
+  // ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

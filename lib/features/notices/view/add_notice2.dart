@@ -44,14 +44,14 @@ class AddNotice2 extends StatelessWidget {
                 onPressed: () async{
                   // Action to add notice
                   try {
-                  String? imageUrl= await UploadImageCloudinary().uploadImageToCloudinary(
-                      imageFile!,
-                      'notices',
-                    );
-                    DisplaySnackbar.show(
-                      context,
-                      'Image uploaded successfully at <<<<=---- $imageUrl',
-                    );
+                  // String? imageUrl= await UploadImageCloudinary().uploadImageToCloudinary(
+                  //     imageFile!,
+                  //     'notices',
+                  //   );
+                    // DisplaySnackbar.show(
+                    //   context,
+                    //   // 'Image uploaded successfully at <<<<=---- $imageUrl',
+                    // );
                   } on Exception catch (e) {
                     DisplaySnackbar.show(context, 'Error uploading image: $e');
                   }

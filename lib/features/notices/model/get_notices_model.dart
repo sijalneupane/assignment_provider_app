@@ -1,8 +1,7 @@
 class GetNoticesModel {
   int? id;
   String? title;
-  String? content;
-  String? noticeDate;
+  String? noticeImageURL;
   int? issuedBy;
   String? issuedByUsername;
   String? priority;
@@ -11,11 +10,10 @@ class GetNoticesModel {
   String? createdAt;
   String? updatedAt;
 
-  GetNoticesModel(
+  GetNoticesModel.GetNoticesModel(
       {this.id,
       this.title,
-      this.content,
-      this.noticeDate,
+      this.noticeImageURL,
       this.issuedBy,
       this.issuedByUsername,
       this.priority,
@@ -27,8 +25,7 @@ class GetNoticesModel {
   GetNoticesModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     title = json['title'];
-    content = json['content'];
-    noticeDate = json['notice_date'];
+    noticeImageURL = json['notice_image_URL'];
     issuedBy = json['issued_by'];
     issuedByUsername = json['issued_by_username'];
     priority = json['priority'];
@@ -42,8 +39,7 @@ class GetNoticesModel {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['title'] = this.title;
-    data['content'] = this.content;
-    data['notice_date'] = this.noticeDate;
+    data['notice_image_URL'] = this.noticeImageURL;
     data['issued_by'] = this.issuedBy;
     data['issued_by_username'] = this.issuedByUsername;
     data['priority'] = this.priority;

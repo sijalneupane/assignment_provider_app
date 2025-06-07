@@ -7,10 +7,12 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_test1/features/assignment/provider/assignment_provider.dart';
 import 'package:provider_test1/features/assignment/view/get_assignment.dart';
+import 'package:provider_test1/features/home/provider/splash_screen_provider.dart';
 import 'package:provider_test1/features/home/provider/theme_provider.dart';
 import 'package:provider_test1/features/home/view/bottom_navbar1.dart';
 import 'package:provider_test1/features/home/view/home1.dart';
 import 'package:provider_test1/features/home/view/splash_screen.dart';
+import 'package:provider_test1/features/home/view/splash_screen_theme_change_demo.dart';
 import 'package:provider_test1/features/login/provider/login_provider.dart';
 import 'package:provider_test1/features/login/view/login1.dart';
 import 'package:provider_test1/features/notices/provider/notices_provider.dart';
@@ -39,6 +41,8 @@ void main() async {
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+static final GlobalKey<ScaffoldMessengerState> scaffoldMessengerKey = 
+      GlobalKey<ScaffoldMessengerState>();
   @override
   State<MyApp> createState() => _MyAppState();
 }
@@ -54,7 +58,6 @@ class _MyAppState extends State<MyApp> {
       FlutterLocalNotificationsPlugin();
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   late AndroidNotificationChannel channel;
-
   @override
   void initState() {
     super.initState();
@@ -216,10 +219,12 @@ class _MyAppState extends State<MyApp> {
             ChangeNotifierProvider(create: (context) => LoginProvider()),
             ChangeNotifierProvider(create: (_) => AssignmentProvider()),
             ChangeNotifierProvider(create: (_)=>NoticesProvider()),
+            ChangeNotifierProvider(create: (_)=>SplashScreenProvider()),
           ],
           child: MaterialApp(
+            scaffoldMessengerKey: MyApp.scaffoldMessengerKey,
             debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',themeMode: themeProvider.themeMode,
+            title: 'Assignment Management App',themeMode: themeProvider.themeMode,
             
             // theme: ThemeData(
             //   brightness: Brightness.light,
@@ -246,8 +251,8 @@ class _MyAppState extends State<MyApp> {
               //   buttonColor: Colors.white,
               // )
             ),
-            home: AddNotice2(),
-            // home: SplashScreen(),
+            // home: AddNotice2(),
+            home: SplashScreen(),
             // home: AddNoticeForm(),
             // home: BottomNavbar1(),
             // home:Home1(),

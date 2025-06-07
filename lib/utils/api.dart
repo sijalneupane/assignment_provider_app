@@ -33,7 +33,7 @@ class Api {
       if (e.response?.statusCode == 400) {
         return ApiResponse(
           networkStatus: NetworkStatus.error,
-          errorMessaage: badRequestStr,
+          errorMessaage: e.response?.statusMessage?? badRequestStr,
           statusCode: e.response?.statusCode,
         );
       } else if (e.error is SocketException) {

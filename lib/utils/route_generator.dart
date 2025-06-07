@@ -4,6 +4,7 @@ import 'package:provider_test1/features/assignment/view/add_assignment.dart';
 import 'package:provider_test1/features/assignment/view/get_assignment.dart';
 import 'package:provider_test1/features/home/view/bottom_navbar1.dart';
 import 'package:provider_test1/features/home/view/home1.dart';
+import 'package:provider_test1/features/home/view/settings.dart';
 import 'package:provider_test1/features/login/view/login1.dart';
 import 'package:provider_test1/features/login/view/register1.dart';
 import 'package:provider_test1/features/notices/view/add_notice.dart';
@@ -99,12 +100,10 @@ class RouteGenerator {
       //   return PageRouteBuilder(
       //       pageBuilder: (_, __, ___) => ViewCarListScreen(
       //           fromHomePage: settings.arguments as bool? ?? false));
-      // case Routes.settingsRoute:
-      //   return PageRouteBuilder(
-      //       pageBuilder: (_, __, ___) => SettingsPage(
-      //           users: settings.arguments != null
-      //               ? settings.arguments as Users
-      //               : null));
+      case Routes.settingsRoute:
+        return PageRouteBuilder(
+            pageBuilder: (_, __, ___) => Settings(
+));
 
       case Routes.notificationRoute:
         return PageRouteBuilder(

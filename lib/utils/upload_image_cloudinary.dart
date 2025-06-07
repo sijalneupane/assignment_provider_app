@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:cloudinary/cloudinary.dart';
 
 class UploadImageCloudinary {
-  Future<String?> uploadImageToCloudinary(
+  Future<CloudinaryResponse?> uploadImageToCloudinary(
     File imageFile,
     String folderName,
   ) async {
@@ -23,14 +23,39 @@ class UploadImageCloudinary {
 
       if (response.isSuccessful && response.secureUrl != null) {
         print('Uploaded Image URL: ${response.secureUrl}');
-        return response.secureUrl;
       } else {
         print('Upload failed: ${response.error}');
+
+      }
+      return response;
+    } catch (e) {
+      print('Error: $e');
+      return null;
+    }
+
+  }
+
+  Future<bool> deleteImageFromCloudinary(String publicId) async {
+    final cloudinary = Cloudinary.signedConfig(cloudName: 'ddb1esok3',apiKey: '945181531472972', apiSecret: 'pLPjV-bNTMtyvfWPM64BUrvt9Ug');
+    const uploadPreset = 'unsigned_preset';
+    try {
+      final response = await cloudinary.destroy( 
+         publicId,
+         
+        resourceType: CloudinaryResourceType.image,
+        invalidate: true
+      );
+
+      if (response.isSuccessful) {
+        print('Image deleted successfully');
+        return true;
+      } else {
+        print('Delete failed: ${response.error}');
+        return false;
       }
     } catch (e) {
       print('Error: $e');
+      return false;
     }
-
-    return null;
-  }
+}
 }
