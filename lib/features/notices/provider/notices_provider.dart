@@ -7,7 +7,7 @@ import 'package:provider_test1/features/notices/model/get_notices_model.dart';
 import 'package:provider_test1/features/notices/services/notices_service.dart';
 import 'package:provider_test1/features/notices/services/notices_service_impl.dart';
 import 'package:provider_test1/utils/api_response.dart';
-import 'package:provider_test1/utils/get_token_role.dart';
+import 'package:provider_test1/utils/get_user_info.dart';
 import 'package:provider_test1/utils/network_status.dart';
 import 'package:provider_test1/utils/upload_image_cloudinary.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -85,7 +85,7 @@ class NoticesProvider extends ChangeNotifier {
       priority: selectedPriority ?? '',
       targetAudience: selectedAudience,
     );
-    String token = await GetTokenRole().getToken();
+    String? token = GetUserInfo.authToken;
     NoticesService noticesService = NoticesServiceImpl();
     // clearFormFields();
     ApiResponse response = await noticesService.addNotices(
@@ -127,7 +127,7 @@ class NoticesProvider extends ChangeNotifier {
   getNotice() async {
     setGetNetworkStatus(NetworkStatus.loading);
     NoticesService noticeServiceImpl = NoticesServiceImpl();
-    String token = await GetTokenRole().getToken();
+    String? token =  GetUserInfo.authToken;
     ApiResponse response = await noticeServiceImpl.getNotices(token);
     if (response.networkStatus == NetworkStatus.success) {
       notices =
@@ -152,7 +152,7 @@ class NoticesProvider extends ChangeNotifier {
   Future<void> deleteNotice(String noticeId, {String? publicId}) async {
     setDeleteNoticeStatus(NetworkStatus.loading);
     NoticesService noticesService = NoticesServiceImpl();
-    String token = await GetTokenRole().getToken();
+    String? token = GetUserInfo.authToken;
     ApiResponse response = await noticesService.deleteNotices(token, noticeId);
     if (response.networkStatus == NetworkStatus.success) {
       // Optionally delete image from Cloudinary if publicId is provided

@@ -41,8 +41,8 @@ class _LoginState extends State<Login> {
         context,
         listen: false,
       ).setLoginStatus(NetworkStatus.idle);
-      precacheImage(AssetImage("assets/images/logo.jpg"), context);
     });
+      precacheImage(AssetImage("assets/images/logo.jpg"), context);
 
     super.initState();
   }

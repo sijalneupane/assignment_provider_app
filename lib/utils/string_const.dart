@@ -35,6 +35,14 @@ String editAssignmentMessageFailedStr="Failed to update assignmet";
 String loginMessageFailedStr="Failed to login";
 String loginMessageStr="Login Successfullyy";
 
+//password validation with regex
+const String validatePasswordRegexStr="PLease enter password with at least 8 characters long, contain at least one uppercase letter and one number";
+const String passwordPatternStr = r'^(?=.*[A-Z])(?=.*\d).{8,}$';
+RegExp passwordRegex = RegExp(passwordPatternStr);
+//email validation with regex
+const String validateEmailAddressRegexStr="PLease enter email address with @ and proper format";
+const String emailPatternStr = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$';
+RegExp emailRegex = RegExp(emailPatternStr);
 
 
 String settingStr="Settings";
@@ -50,9 +58,9 @@ String alreadyRegisteredStr="Already registered? Login Here";
 
 const String badRequestStr = "Bad request";
 const String noInternetStr = "No internet connection";
-const String credentialsError = "Credentials didnot match";
-const String authorizationFailed = "The user doesnot have the required Permission";
-
+const String credentialsErrorStr = "Credentials didnot match";
+const String authorizationFailedStr = "You do not have the required permission for this action";
+const String notFoundStr="Not Found";
 
 const String deleteAssignmentTitleStr="Delete Assignment ";
 const String deleteAssignmentMessageConfirmStr="Do you really want to delete assignment: ";

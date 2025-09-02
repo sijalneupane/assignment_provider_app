@@ -33,7 +33,7 @@ class Api {
       if (e.response?.statusCode == 400) {
         return ApiResponse(
           networkStatus: NetworkStatus.error,
-          errorMessaage: e.response?.statusMessage?? badRequestStr,
+          errorMessaage: e.response?.statusMessage??e.response?.data["error"] ??badRequestStr,
           statusCode: e.response?.statusCode,
         );
       } else if (e.error is SocketException) {
@@ -51,13 +51,13 @@ class Api {
       } else if (e.response?.statusCode == 403) {
         return ApiResponse(
           networkStatus: NetworkStatus.error,
-          errorMessaage: e.response?.statusMessage,
+          errorMessaage: e.response?.statusMessage ??e.response?.data["error"]??authorizationFailedStr,
           statusCode: e.response?.statusCode,
         );
       } else if (e.response?.statusCode == 404) {
         return ApiResponse(
           networkStatus: NetworkStatus.error,
-          errorMessaage: e.response?.statusMessage,
+          errorMessaage: e.response?.statusMessage ??notFoundStr,
           statusCode: e.response?.statusCode,
         );
       } else {

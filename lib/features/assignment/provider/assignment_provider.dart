@@ -6,7 +6,7 @@ import 'package:provider_test1/features/assignment/service/assignment_service_im
 import 'package:provider_test1/utils/api.dart';
 import 'package:provider_test1/utils/api_const.dart';
 import 'package:provider_test1/utils/api_response.dart';
-import 'package:provider_test1/utils/get_token_role.dart';
+import 'package:provider_test1/utils/get_user_info.dart';
 import 'package:provider_test1/utils/network_status.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,6 +20,8 @@ class AssignmentProvider extends ChangeNotifier {
   // AssignmentProvider(){
   //   getAssignment();
   // }
+  int userId=0;
+  String   role = '';
   final GlobalKey<FormState> updateformKey = GlobalKey<FormState>();
   final GlobalKey<FormState> addformKey = GlobalKey<FormState>();
 
@@ -83,7 +85,7 @@ class AssignmentProvider extends ChangeNotifier {
   addAssignment() async {
     setAddAssignmentStatus(NetworkStatus.loading);
     AssignmentService assignmentServiceImpl = AssignmentServiceImpl();
-    String token = await GetTokenRole().getToken();
+    String? token = GetUserInfo.authToken;
     AddAssignmentModel addAssignmentModel = AddAssignmentModel(
       title: titleController.text,
       subjectName: subjectController.text,
@@ -114,7 +116,8 @@ class AssignmentProvider extends ChangeNotifier {
   getAssignment() async {
     // AddAssignmentModel AddAssignmentModel=AddAssignmentModel()
     setGetAssignmentStatus(NetworkStatus.loading);
-    String token = await GetTokenRole().getToken();
+    String? token = GetUserInfo.authToken;
+ 
     AssignmentService assignmentService = AssignmentServiceImpl();
     ApiResponse response = await assignmentService.getAssignment(token);
     if (response.networkStatus == NetworkStatus.success) {
@@ -130,7 +133,12 @@ class AssignmentProvider extends ChangeNotifier {
       setGetAssignmentStatus(NetworkStatus.error);
     }
   }
-
+  Future<int> getIdFromSharedPreferences() async {
+       SharedPreferences prefs = await SharedPreferences.getInstance();
+    int id = int.parse(prefs.getString("id") ?? "0");
+    return id;
+  }
+  
   //deleteassigment
   NetworkStatus _deleteAssignmentStatus = NetworkStatus.idle;
   NetworkStatus get getDeleteAssignmentStatus => _deleteAssignmentStatus;
@@ -142,7 +150,7 @@ class AssignmentProvider extends ChangeNotifier {
   deleteAssignmentById(String id) async {
     setDeleteAssignmentStatus(NetworkStatus.loading);
     AssignmentService apiService = AssignmentServiceImpl();
-    String token = await GetTokenRole().getToken();
+    String? token;
     ApiResponse response = await apiService.deleteAssignment(token, id);
     if (response.networkStatus == NetworkStatus.success) {
       await getAssignment();
@@ -163,13 +171,15 @@ class AssignmentProvider extends ChangeNotifier {
   editAssignment(String id) async {
     setEditAssignmentStatus(NetworkStatus.loading);
     AssignmentService assignmentServiceImpl = AssignmentServiceImpl();
-    String token = await GetTokenRole().getToken();
+    String? token = GetUserInfo.authToken;
+    int teacherId = await getIdFromSharedPreferences();
     AddAssignmentModel assignmentModel = AddAssignmentModel(
       title: titleController.text,
       subjectName: subjectController.text,
       faculty: faculty,
       semester: semester,
       description: descriptionController.text,
+      teacherId: teacherId
     );
     ApiResponse response = await assignmentServiceImpl.editAssignment(
       assignmentModel,

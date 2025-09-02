@@ -105,7 +105,13 @@ class LoginProvider extends ChangeNotifier {
         prefs.setString("role", role);
         setLoginStatus(NetworkStatus.success);
         saveRememberMeValue();
-        saveUserCredentials(role: role, email: email, username: username, name: name,id:id);
+        saveUserCredentials(
+          role: role,
+          email: email,
+          username: username,
+          name: name,
+          id: id,
+        );
       } else {
         setLoginStatus(NetworkStatus.error);
       }
@@ -141,6 +147,8 @@ class LoginProvider extends ChangeNotifier {
   validateEmail(String? value) {
     if (value!.isEmpty) {
       return emailValidationStr;
+    } else if (!emailRegex.hasMatch(value)) {
+      return validateEmailAddressRegexStr;
     }
     return null;
   }
@@ -148,6 +156,8 @@ class LoginProvider extends ChangeNotifier {
   validatePassword(String? value) {
     if (value!.isEmpty) {
       return passwordValidationStr;
+    } else if (!passwordRegex.hasMatch(value)) {
+      return validatePasswordRegexStr;
     }
     return null;
   }

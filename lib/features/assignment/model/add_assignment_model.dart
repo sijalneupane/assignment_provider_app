@@ -4,12 +4,14 @@ class AddAssignmentModel {
   String? faculty;
   String? title;
   String? description;
+  int? teacherId;
 
   AddAssignmentModel(
       {this.subjectName,
       this.semester,
       this.faculty,
       this.title,
+      this.teacherId,
       this.description});
 
   AddAssignmentModel.fromJson(Map<String, dynamic> json) {
@@ -17,6 +19,7 @@ class AddAssignmentModel {
     semester = json['semester'];
     faculty = json['faculty'];
     title = json['title'];
+    teacherId = json['teacherId'];
     description = json['description'];
   }
 
@@ -26,6 +29,7 @@ class AddAssignmentModel {
     data['semester'] = this.semester;
     data['faculty'] = this.faculty;
     data['title'] = this.title;
+    data['teacherId'] = this.teacherId;
     data['description'] = this.description;
     return data;
   }

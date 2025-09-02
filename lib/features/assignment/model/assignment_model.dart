@@ -6,6 +6,7 @@ class AssignmentModel {
   String? faculty;
   String? title;
   String? description;
+  int? teacherId;
 
   AssignmentModel(
       {this.id,this.subjectName,
@@ -13,6 +14,7 @@ class AssignmentModel {
         this.deadline,
       this.faculty,
       this.title,
+      this.teacherId,
       this.description});
 
   AssignmentModel.fromJson(Map<String, dynamic> json) {
@@ -22,6 +24,7 @@ class AssignmentModel {
      deadline = json['deadline'];
     faculty = json['faculty'];
     title = json['title'];
+    teacherId = json['teacherId'];
     description = json['description'];
   }
 

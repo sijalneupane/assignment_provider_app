@@ -3,7 +3,7 @@ import 'package:provider_test1/features/assignment/view/add_assignment.dart';
 import 'package:provider_test1/features/assignment/view/get_assignment.dart';
 import 'package:provider_test1/features/login/view/login1.dart';
 import 'package:provider_test1/utils/dialog_box.dart';
-import 'package:provider_test1/utils/get_token_role.dart';
+import 'package:provider_test1/utils/get_user_info.dart';
 import 'package:provider_test1/utils/route_const.dart';
 import 'package:provider_test1/utils/route_generator.dart';
 import 'package:provider_test1/utils/string_const.dart';
@@ -46,25 +46,17 @@ class _SettingsState extends State<Settings> {
                 RouteGenerator.navigateToPage(context, Routes.getAssignment);
               },
             ),
-            FutureBuilder<String>(
-              future: GetTokenRole().getRole(),
-              builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return SizedBox.shrink();
-              }
-              if (snapshot.hasData && snapshot.data == "admin") {
-                return SettingElevatedButton(
-                icon: Icons.admin_panel_settings,
-                data: "Admin Panel",
-                onPressed: () {
-                  // Navigate to admin panel or perform admin action
-                  RouteGenerator.navigateToPage(context, Routes.addNoticeRoute);
-                },
-                );
-              }
-              return SizedBox.shrink();
+
+            if(GetUserInfo.currentUser?.role=="admin")
+             SettingElevatedButton(
+              icon: Icons.upload_file,
+              data: "Add Notice",
+              onPressed: () {
+                // Navigate to admin panel or perform admin action
+                RouteGenerator.navigateToPage(context, Routes.addNoticeRoute);
               },
             ),
+
             SettingElevatedButton(
               data: getNoticeStr,
               icon: Icons.image_search,

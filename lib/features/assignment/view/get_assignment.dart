@@ -5,6 +5,7 @@ import 'package:provider_test1/features/assignment/provider/assignment_provider.
 import 'package:provider_test1/features/login/provider/login_provider.dart';
 import 'package:provider_test1/utils/api_const.dart';
 import 'package:provider_test1/utils/dialog_box.dart';
+import 'package:provider_test1/utils/get_user_info.dart';
 import 'package:provider_test1/utils/network_status.dart';
 import 'package:provider_test1/utils/route_const.dart';
 import 'package:provider_test1/utils/route_generator.dart';
@@ -28,8 +29,13 @@ class _GetAssignmentState extends State<GetAssignment> {
     // TODO: implement initState
     super.initState();
     // Delay the call to ensure context is available
-    Future.microtask(() {
-      Provider.of<AssignmentProvider>(context, listen: false).getAssignment();
+    Future.microtask(() async{
+      AssignmentProvider assignmentProvider =
+          Provider.of<AssignmentProvider>(context, listen: false);
+      assignmentProvider.getAssignment();
+      assignmentProvider.userId=await assignmentProvider.getIdFromSharedPreferences();
+      assignmentProvider.role = GetUserInfo.currentUser?.role??'' ;
+      ;
     });
   }
 
@@ -176,7 +182,7 @@ class _GetAssignmentState extends State<GetAssignment> {
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.05,
                         ),
-                        Row(
+                       if(assignmentProvider.userId==assignmentProvider.assignmentList[index].teacherId||assignmentProvider.role=="admin" )...[ Row(
                           children: [
                             Spacer(),
                             CustomIconButton(
@@ -212,6 +218,7 @@ class _GetAssignmentState extends State<GetAssignment> {
                             ),
                           ],
                         ),
+                       ]
                       ],
                     ),
                   ),
