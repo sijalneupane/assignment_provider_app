@@ -2,11 +2,13 @@ import 'dart:io';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:provider_test1/features/home/model/currentuser.dart';
 import 'package:provider_test1/features/login/model/login_model.dart';
 import 'package:provider_test1/features/login/model/signup_model.dart';
 import 'package:provider_test1/features/login/service/login_service.dart';
 import 'package:provider_test1/features/login/service/login_service_impl.dart';
 import 'package:provider_test1/utils/api_response.dart';
+import 'package:provider_test1/utils/get_user_info.dart';
 import 'package:provider_test1/utils/network_status.dart';
 import 'package:provider_test1/utils/string_const.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -95,22 +97,27 @@ class LoginProvider extends ChangeNotifier {
         clearFormFields();
         // Obtain shared preferences.
         final SharedPreferences prefs = await SharedPreferences.getInstance();
-        final String token = response.data["token"];
-        final String role = response.data["role"];
-        final String email = response.data["email"];
-        final String id = response.data["id"].toString();
-        final String username = response.data["username"];
-        final String name = response.data["name"];
+        
+        final data = response.data["data"];
+        final String token=data?["token"];
+        final CurrentUser currentUser = CurrentUser.fromJson(data["user"]);
+        // final String role = response.data["role"];
+        // final String email = response.data["email"];
+        // final String id = response.data["id"].toString();
+        // final String username = response.data["username"];
+        // final String name = response.data["name"];
+        GetUserInfo().saveCurrentUser(currentUser);
+        GetUserInfo.authToken=token;
         prefs.setString("token", token);
-        prefs.setString("role", role);
+        prefs.setString("role", currentUser.role!);
         setLoginStatus(NetworkStatus.success);
         saveRememberMeValue();
         saveUserCredentials(
-          role: role,
-          email: email,
-          username: username,
-          name: name,
-          id: id,
+          role: currentUser.role!,
+          email: currentUser.email!,
+          username: currentUser.username!,
+          name: currentUser.name!,
+          id: currentUser.id.toString(),
         );
       } else {
         setLoginStatus(NetworkStatus.error);

@@ -3,23 +3,23 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class GetUserInfo {
   static String? authToken;
-  static CurrentUser? currentUser;
+  static CurrentUser? _currentUser;
   //  Future<String> getRole() async {
   //     final SharedPreferences prefs = await SharedPreferences.getInstance();
   //    String role= prefs.getString("role")??'';
   //    return role;
   //   }
 
-  Future<void> getToken() async {
+  Future<void>  getToken() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     authToken = prefs.getString("token");
   }
 
-  saveCurrentUserInfo(CurrentUser? currentUser) {
-    currentUser = currentUser;
+  saveCurrentUser(CurrentUser? currentUser) {
+    _currentUser = currentUser;
   }
 
-  getCurrentUser() {
-    return currentUser;
+ CurrentUser? getCurrentUser() {
+    return _currentUser;
   }
 }

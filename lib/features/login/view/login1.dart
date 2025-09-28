@@ -42,9 +42,15 @@ class _LoginState extends State<Login> {
         listen: false,
       ).setLoginStatus(NetworkStatus.idle);
     });
-      precacheImage(AssetImage("assets/images/logo.jpg"), context);
+  
 
     super.initState();
+  }
+  @override
+  void didChangeDependencies() {
+    // TODO: implement didChangeDependencies
+    super.didChangeDependencies();
+    precacheImage(AssetImage("assets/images/logo.jpg"), context);
   }
 
   // List<String> genderList = ["Male", "Female", "Others"];

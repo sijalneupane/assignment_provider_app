@@ -34,7 +34,7 @@ class _GetAssignmentState extends State<GetAssignment> {
           Provider.of<AssignmentProvider>(context, listen: false);
       assignmentProvider.getAssignment();
       assignmentProvider.userId=await assignmentProvider.getIdFromSharedPreferences();
-      assignmentProvider.role = GetUserInfo.currentUser?.role??'' ;
+      assignmentProvider.role = GetUserInfo().getCurrentUser()?.role??'' ;
       ;
     });
   }

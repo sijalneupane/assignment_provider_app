@@ -37,7 +37,7 @@ String loginMessageStr="Login Successfullyy";
 
 //password validation with regex
 const String validatePasswordRegexStr="PLease enter password with at least 8 characters long, contain at least one uppercase letter and one number";
-const String passwordPatternStr = r'^(?=.*[A-Z])(?=.*\d).{8,}$';
+const String passwordPatternStr = r'^(?=.*\d).{8,}$';
 RegExp passwordRegex = RegExp(passwordPatternStr);
 //email validation with regex
 const String validateEmailAddressRegexStr="PLease enter email address with @ and proper format";

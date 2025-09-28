@@ -47,7 +47,7 @@ class _SettingsState extends State<Settings> {
               },
             ),
 
-            if(GetUserInfo.currentUser?.role=="admin")
+            if(GetUserInfo().getCurrentUser()?.role=="admin")
              SettingElevatedButton(
               icon: Icons.upload_file,
               data: "Add Notice",
